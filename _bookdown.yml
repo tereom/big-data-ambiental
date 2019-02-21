@@ -1,0 +1,5 @@
+book_filename: "big-data-ambiental"
+chapter_name: "Sección "
+repo: https://github.com/tereom/big-data-ambiental
+clean: [packages.bib, bookdown.bbl]
+new_session: yes
