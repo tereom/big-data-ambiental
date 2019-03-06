@@ -10,8 +10,20 @@ knitr::opts_chunk$set(
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits=3)
 
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install("BiocManager")
+#
+#if (!requireNamespace("Rgraphviz", quietly = TRUE))
+#    BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
+#
+#if (!requireNamespace("RBGL", quietly = TRUE))
+#    BiocManager::install("RBGL", ask = FALSE)
+#}
+
 library(tidyverse)
 library(magrittr)
+library(bnlearn)
+
 theme_set(theme_minimal())
 ```
 
@@ -34,12 +46,8 @@ red de seguros de auto.
 En este ejemplo nos interesa entender los patrones de dependencia entre 
 variables como edad, calidad de conductor y tipo de accidente:
 
-```{r warning=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-  BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
+```{r echo=FALSE, message=FALSE}
 
-library(bnlearn)
 head(insurance)
 insurance_dat <- insurance[, c('Age', 'GoodStudent', 'SocioEcon', 'RiskAversion',
                                'Accident','DrivQuality')]
@@ -51,8 +59,8 @@ Utilizamos una red bayesiana:
 ```{r}
 insurance_gm <- hc(insurance_dat, blacklist = blacklist)
 graphviz.plot(insurance_gm)
-insurance.fit <- bn.fit(insurance_gm, data = insurance_dat, method = 'bayes',
-                        iss = 1)
+insurance.fit <- bn.fit(insurance_gm, data = insurance_dat, 
+                        method = 'bayes', iss = 1)
 #write.net(file = './salidas/insurance.net', insurance.fit)
 ```
 
@@ -117,8 +125,8 @@ de un vértice y regresando al mismo (ciclos).
 
 
 **Ejemplo.**
-```{r, fig.height=4, fig.width = 5, warning=FALSE}
-library(igraph)
+```{r, fig.height=4, fig.width = 5}
+library(igraph, warn.conflicts = FALSE)
 gr <- graph(c(1, 2, 3, 2, 3, 4))
 plot(gr, 
   vertex.label = c('Dieta', 'Enf. corazón', 'Fuma', 'Tos'), 
@@ -136,7 +144,7 @@ etc.
 
 En las siguientes secciones explicaremos dos enfoques para 
 interpretar una gráfica dirigida probabilísticamente (en términos de la 
-distribición conjunta).
+distribución conjunta).
 
 * Por una parte la gráfica define un esqueleto que sirve para 
 representar de manera compacta una distribución de dimensión alta, esto es:
@@ -219,7 +227,7 @@ esta forma tenemos que especificar, por ejemplo, los parámetros
 $p_{00},p_{01},p_{10}$.
 
 Por otra parte, la factorización sugiere los parámetros $p_0,p_{0|1},p_{0|0},$
-donde $p_0=p(x=0)$, $p_{0|1}=p(y=0|x=1)$ y $p_{0|0}=p(y=0|x=1)$. Los otros 
+donde $p_0=p(x=0)$, $p_{0|1}=p(y=0|x=1)$ y $p_{0|0}=p(y=0|x=0)$. Los otros 
 parámetros están dados por $p_1=1-p_0$, $p_{1|0}=1-p_{0|0}$ y 
 $p_{1|1}=1-p_{0|1}$.
 
@@ -266,7 +274,7 @@ e) Ninguna de las anteriores.
 
 <br/>
 
-En primer lugar, las _gráficas dirigidas acíclicas asociadas a una distribución
+En primer lugar, las _gráficas dirigidas acíclicas_ asociadas a una distribución
 conjunta dan una factorización particular $p$ para la conjunta. 
 
 Sea ${\mathcal G}$ una gráfica dirigida con vértices $X_1,X_2,...,X_k$, 
@@ -526,7 +534,7 @@ modelo_jardin
 
 Finalmente, para hacer inferencia en la red (es decir, calcular probabilidades
 dado cierto conocimiento), necesitamos usar un algoritmo eficiente (por ejemplo 
-en [SAMIAM](http://reasoning.cs.ucla.edu/samiam/). Aquí usamos el paquete **gRain**. Los _query_ que hacemos son 
+en [SAMIAM](http://reasoning.cs.ucla.edu/samiam/) o [GeNIe](https://www.bayesfusion.com/)). Aquí usamos el paquete **gRain**. Los _query_ que hacemos son 
 la inferencia, pero también se llaman así en la literatura de modelos gráficos. 
 En este caso, podemos examinar las marginales condicionales a toda la evidencia
 (información) que tenemos.
@@ -534,12 +542,6 @@ En este caso, podemos examinar las marginales condicionales a toda la evidencia
 Por ejemplo, ¿cómo se ven las marginales cuando sabemos que el piso está muy resbaladizo?
 
 ```{r, warning=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-{
-  BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
-  BiocManager::install("RBGL", ask = FALSE)
-}
 
 library(gRain)
 comp_jardin <- compile(as.grain(modelo_jardin))
@@ -570,7 +572,7 @@ query_5 <- setEvidence(comp_jardin, nodes=c('piso', 'regar'),
 querygrain(query_5)$llueve
 ```
 
-![](../../computo/imagenes/manicule2.jpg)  Construir esta red en samaiam, y 
+![](../../computo/imagenes/manicule2.jpg)  Construir esta red en samiam, y 
 repetir los queries.
 
 ### Independencia condicional y redes bayesianas
@@ -591,7 +593,6 @@ descendiente o padre de $W$. Otra manera de decir esto es que dados los padres,
 un nodo sólo puede transmitir información probabilística a sus descendientes y 
 a ningún otro nodo.
 </div>
-
 <br/>
 
 
@@ -1032,7 +1033,7 @@ plot(gr, vertex.label=c('X1','X2','X3','X4','X5'),
 Decimos que un colisionador *no está protegido* cuando las variables que apuntan
 a la colisión no tienen vértice entre ellas. Definimos adicionalmente el *esqueleto*
 de una GAD como la versión no dirigida de $\mathcal G$. El siguiente resultado establece
-que la distribución sólo puede determinar determinar la dirección de las flechas
+que la distribución sólo puede determinar la dirección de las flechas
 en presencia de un colisionador no protegido:
 
 
@@ -1056,7 +1057,7 @@ si es una serie de tiempo).
 Una estructura que sí podemos identificar de manera dirigida es el colisionador. El resto
 de las direcciones pueden establecerse por facilidad de interpretación o razones causales.
 
-Regresando a la gráfica anterior, notamos que al revertir el sentido del arco que une a $X_1$ con $X_2$ no se crea ni se destruye ningun colisionador y por tanto la gráfica resultante del cambio de sentido es efectivamente Markov equivalente. Consideremos ahora los arcos dirigidos que unen a $X_2$ con $X_4$ y a $X_4$ con $X_5$, notamos que no hay manera de revertir la dirección de estos arcos si crear un nuevo colisionador, esto implica que algunas funciones de probabilidad $p$ restringen la dirección de éstas flechas en la gráfica.
+Regresando a la gráfica anterior, notamos que al revertir el sentido del arco que une a $X_1$ con $X_2$ no se crea ni se destruye ningun colisionador y por tanto la gráfica resultante del cambio de sentido es efectivamente Markov equivalente. Consideremos ahora los arcos dirigidos que unen a $X_2$ con $X_4$ y a $X_4$ con $X_5$, notamos que no hay manera de revertir la dirección de estos arcos sin crear un nuevo colisionador, esto implica que algunas funciones de probabilidad $p$ restringen la dirección de éstas flechas en la gráfica.
 
 En el siguiente ejemplo, mostramos la clase de equivalencia
 de una red de ejemplo. Ahí vemos cuáles son las aristas que se pueden orientar
