@@ -118,7 +118,7 @@ superior, después lanzamos otro dado y anotamos el número de la cara superior.
 * Repite las preguntas anteriores cuando lanzas 2 dados con $n$ caras ($n \ge 
 4$).
 
-#### Ejemplo: combinaciones {-}
+### --- Ejemplo: combinaciones {-}
 
 Un comité de 5 personas será seleccionado de un grupo de 6 hombres y 9 mujeres. 
 Si la selección es aleatoria, ¿cuál es la probabilidad de que el comité este
@@ -935,9 +935,9 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 </div>
 <br/>
 
-![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si cae con un número
-par, lanzo en seguida una moneda justa (la probabilidad de observar águila con 
-ella es la misma que la de observar sol), si el dado muestra un número impar
+![](imagenes/manicule2.jpg) Supongamos que tiro un dado, si cae con un número
+par, lanzo en seguida una moneda _justa_ (la probabilidad de observar águila con 
+ella es la misma que la de observar sol). Si el dado muestra un número impar
 lanzo una moneda sesgada en la que la probabilidad de observar águila es $0.9$.
 Si observo sol, ¿Cuál es la probabilidad de que haya lanzado la moneda sesgada?
 
@@ -978,8 +978,8 @@ no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que
 la incidencia de cáncer de mama en ese grupo de edad es $0.8\%$ y la tasa de 
 falsos negativos de $10\%$. En Alemania, un tercio de los médicos determinaron
 que la probabilidad era cercana al $90\%$ y la mediana de las estimaciones fue
-$70\%$. En EUA $95$ de $100$ médicos estimaron que la probabilidad rondaba el $75\%$.
-¿Cómo determinas la probabilidad de que una mujer con mamografía positiva tenga
+$70\%.$ En EUA $95$ de $100$ médicos estimaron que la probabilidad rondaba el $75\%.$
+¿Cómo determinas la probabilidad de que una mujer con mastografía positiva tenga
 cáncer?
 
 
@@ -991,14 +991,17 @@ Sean $X$, $Y$ dos variables aleatorias,
 $$p_{X\vert Y}(x\vert y) = \frac{p_{Y\vert X}(y\vert x)p_X(x)}{p_Y(y)}.$$
 </div>
 
+![](imagenes/nopal-cactoblastis.jpg){ width=50% }
 
-![](imagenes/manicule2.jpg) Supongamos ahora que una compañía de
-seguros divide a la gente en dos clases: propensos a accidente (30\% de las 
-personas) y no propensos a accidente. En un año dado aquellos propensos a 
-accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro 
-grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que 
-un asegurado tenga un accidente en su segundo año condicional a que sufrió un
-accidente en el primer año?
+![](imagenes/manicule2.jpg)Supongamos ahora que una botánico
+encuentra dos variedades de nopal (_Opuntia_ $sp-\alpha$), una es propensa al ataque
+de la polilla del nopal (_Cactoblastis cactorum_) y muestra afectación
+en 30\% de las parcelas en donde se le cultiva, la otra variedad se considera
+que no es propensa al ataque. En un año dado aquellos propensos al ataque sufren
+un infestación con probabilidad 0.4, mientras que los del otro grupo 
+sufren un ataque con probabilidad 0.2. ¿Cuál es la probabilidad de 
+que una parcela con nopal de esta especie tenga una infestación en 
+su segundo año, condicionado a que sufrió un ataque en el primer año?
 
 
 Una consecuencia de la regla de Bayes es que cualquier distribución multivariada
@@ -1024,12 +1027,12 @@ los eventos $E$ y $F$ son independientes si saber que uno de ellos ocurrió no
 afecta la probabilidad del otro. Utilizaremos la notación $E\perp F$ que se lee "$E$ es independiente de $F$".
 
 <div class="caja">
-Dos variables aleatorias $X$, $Y$, son independientes sí y sólo sí
+Dos variables aleatorias $X$, $Y$, son independientes si y sólo si
 $$p(x,y) = p_X(x)p_Y(y)$$
 </div>
 <br/>
 
-Más aún, $X$ y $Y$ son independientes sí y sólo sí $p(x,y)  \propto g(x)h(y)$, 
+Más aún, $X$ y $Y$ son independientes si y sólo si $p(x,y)  \propto g(x)h(y)$, 
 por lo que para demostrar independecia podemos omitir las constantes en la 
 factorización de las densidades
 
@@ -1072,9 +1075,9 @@ $$
 ¿$X$ y $Y$ son independientes?
 
 
-**Ejercicio**. Recordando el ejemplo de departamentos en Hong Kong, veamos si 
-Renta y Tipo son independientes, para esto comparemos $p(renta|tipo)$ y 
-$p(renta)$.
+**Ejercicio**. Recordando el ejemplo de los hábitats del jaguar, veamos si 
+Abundancia de presas y Tipo son independientes, para esto comparemos $p(presas|tipo)$ y 
+$p(presas)$.
 
 
 
@@ -1104,47 +1107,43 @@ $$ P(A,B\vert C) = P(A\vert C)P(B\vert C)$$
 
 
 Similar al caso de independencia, $A$ y $B$ son condicionalmente independientes 
-dado $C$ sí y solo sí $P(A \vert B,C) = P(A \vert C)$, esto es, una vez que
+dado $C$ si y sólo si $P(A \vert B,C) = P(A \vert C)$, esto es, una vez que
 conocemos el valor de $C$, $B$ no proporciona información adicional sobre $A$. 
 
-**Ejemplo.** Retomemos el ejercicio de asegurados. En la solución de este 
+**Ejemplo.** Retomemos el ejercicio de los nopales. En la solución de este 
 ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
-establecer esa igualdad estamos asumiendo que $A_2$ (el asegurado tiene un 
-accidente en el año 2) y $A_1$ (el asegurado tiene un accidente en el año 1) son
-eventos condicionalmente independientes dado $A$ (el asegurado es propenso a
-accidentes): $P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
-
-
-
-**Ejemplo.** Retomemos el ejercicio de asegurados. En la solución de este 
-ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
-establecer esa igualdad estamos asumiendo que $A_2$ (el asegurado tiene un 
-accidente en el año 2) y $A_1$ (el asegurado tiene un accidente en el año 1) son
-eventos condicionalmente independientes dado $A$ (el asegurado es propenso a
-accidentes): $P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
+establecer esa igualdad estamos asumiendo que $A_2$ (la parcela sufre de un 
+infestación en el año 2) y $A_1$ (la misma parcela tiene un infestación en el
+año 1) son eventos condicionalmente independientes dado $A$ (la parcela tiene
+la variedad suceptible al ataque): 
+$P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
 
 En el caso de variables aleatorias definimos independencia condicional como 
 sigue.
 
 <div class="caja">
 Sean $X$, $Y$ y $Z$, tres variables aleatorias decimos que $X$ es independiente 
-de $Y$ condicional a $Z$ ($X \perp Y \vert Z$) si y sólo sí, 
+de $Y$ condicional a $Z$ ($X \perp Y \vert Z$) si y sólo si, 
 $$p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 </div>
 
-Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ sí y sólo sí, 
+Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ si y sólo si, 
 $p(x,y,z) \propto g(x,z)h(y,z)$.
 
-**Ejemplo**. Supongamos que ruedo un dado, si observo un número par realizo dos 
-lanzamientos de una moneda justa (la probabilidad de observar águila es la misma 
-que la de observar sol), si el dado muestra un número impar realizo dos 
-lanzamientos de una moneda sesgada en la que la probabilidad de observar águila
-es 0.9. Denotemos por $Z$ la variable aleatoria asociada a la selección de la 
-moneda, $X_1$ la correspondiente al primer lanzamiento y $X_2$ la 
-correspondiente al segundo. Entonces, $X_1$ y $X_2$ no son independientes, sin
-embargo, son condicionalmente independientes ($X_1 \perp X_2 \vert Z$), puesto 
-que una vez que se que moneda voy a lanzar el resultado del primer lanzamiento 
-no aporta información adicional para el segundo lanzamiento. Calcularemos la distribución conjunta y la distribución condicional de $X_2$ dado $X_1$.
+## --- Repite el enunciado de las líneas 938 a 942
+
+**Ejemplo**. Recordando el ejemplo del dado y las monedas en el que supusimos 
+que tiro un dado y si cae con un número par, lanzo en seguida una moneda _justa_
+(la probabilidad de observar águila con ella es la misma que la de observar sol).
+Si el dado muestra un número impar lanzo una moneda sesgada en la que la
+probabilidad de observar águila es $0.9$. Denotemos por $Z$ la variable 
+aleatoria asociada a la selección de la moneda, $X_1$ la correspondiente
+al primer lanzamiento y $X_2$ la correspondiente al segundo. Entonces,
+$X_1$ y $X_2$ no son independientes, sin embargo, son condicionalmente
+independientes ($X_1 \perp X_2 \vert Z$), pues cuando se cual moneda voy a 
+lanzar el resultado del primer lanzamiento ya no aporta información 
+adicional para el segundo lanzamiento. Calcularemos
+la distribución conjunta y la distribución condicional de $X_2$ dado $X_1$.
 
 La distribución conjunta esta determinada por la siguiente tabla:
 
@@ -1182,7 +1181,7 @@ X1/X2| Z | a  |  s  |.
 </div>
 
 En este punto es claro que $X \perp Y \vert Z$ no implica $X \perp Y$, pues 
-como vimos en el ejemplo de las monedas $X_1 \perp X_2 \vert Z$ pero 
+como vimos en el ejemplo de los dados y las monedas $X_1 \perp X_2 \vert Z$ pero 
 $X_1 \not \perp X_2$. Más aún, $X \perp Y$ tampoco implica $X \perp Y \vert Z$.
 
 <div class="caja">
@@ -1200,6 +1199,8 @@ representación es menor lo que facilita la estimación.
 La independencia de eventos o variables aleatorias es poco común en la práctica, 
 más frecuente es el caso en que dos eventos son independientes dado un tercer 
 evento. 
+
+### --- Esto repite el enunciado de las líneas 1090 a 1100
 
 **Ejemplo.** En una competencia de velocidad, cada atleta 
 se somete a dos pruebas de dopaje que buscan detectar si el deportista ingirió 
@@ -1224,12 +1225,14 @@ Similar al caso de independencia, $A$ y $B$ son condicionalmente independientes
 dado $C$ sí y solo sí $P(A \vert B,C) = P(A \vert C)$, esto es, una vez que
 conocemos el valor de $C$, $B$ no proporciona información adicional sobre $A$. 
 
-**Ejemplo.** Retomemos el ejercicio de asegurados. En la solución de este 
+### --- Repite el enunciado en las líneas 1113 a 1119
+
+**Ejemplo.**  Retomemos el ejercicio de los nopales. En la solución de este 
 ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
-establecer esa igualdad estamos asumiendo que $A_2$ (el asegurado tiene un 
-accidente en el año 2) y $A_1$ (el asegurado tiene un accidente en el año 1) son
-eventos condicionalmente independientes dado $A$ (el asegurado es propenso a
-accidentes): $P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
+establecer esa igualdad estamos asumiendo que $A_2$ (la parcela sufre de un 
+infestación en el año 2) y $A_1$ (la misma parcela tiene un infestación en el
+año 1) son eventos condicionalmente independientes dado $A$ (la parcela tiene
+la variedad suceptible al ataque): $P(A_2|AA_1) = P(A_2|A) = 0.4$ y $P(A_2|A^cA_1) = P(A_2|A^c) = 0.2$.
 
 </br>
 
@@ -1238,24 +1241,29 @@ sigue.
 
 <div class="caja">
 Sean $X$, $Y$ y $Z$, tres variables aleatorias decimos que $X$ es independiente 
-de $Y$ condicional a $Z$ ($X \perp Y \vert Z$) si y sólo sí, 
+de $Y$ condicional a $Z$ ($X \perp Y \vert Z$) si y sólo si, 
 $$p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 </div>
 
 </br>
 
-Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ sí y sólo sí, 
+Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ si y sólo si, 
 $p(x,y,z) \propto g(x,z)h(y,z)$.
 
-**Ejemplo**. Supongamos que ruedo un dado, si observo un número par realizo dos lanzamientos de una moneda justa (la probabilidad de observar águila es la misma 
-que la de observar sol), si el dado muestra un número impar realizo dos 
-lanzamientos de una moneda sesgada en la que la probabilidad de observar águila
-es 0.9. Denotemos por $Z$ la variable aleatoria asociada a la selección de la 
-moneda, $X_1$ la correspondiente al primer lanzamiento y $X_2$ la 
-correspondiente al segundo. Entonces, $X_1$ y $X_2$ no son independientes, sin
-embargo, son condicionalmente independientes ($X_1 \perp X_2 \vert Z$), puesto 
-que una vez que se que moneda voy a lanzar el resultado del primer lanzamiento 
-no aporta información adicional para el segundo lanzamiento. Calcularemos la distribución conjunta y la distribución condicional de $X_2$ dado $X_1$.
+### --- Esto repite el enunciado en las líneas 1135 a 1190
+
+**Ejemplo**. Recordando el ejemplo del dado y las monedas en el que supusimos 
+que tiro un dado y si cae con un número par, lanzo en seguida una moneda _justa_
+(la probabilidad de observar águila con ella es la misma que la de observar sol).
+Si el dado muestra un número impar lanzo una moneda sesgada en la que la
+probabilidad de observar águila es $0.9$. Denotemos por $Z$ la variable 
+aleatoria asociada a la selección de la moneda, $X_1$ la correspondiente
+al primer lanzamiento y $X_2$ la correspondiente al segundo. Entonces,
+$X_1$ y $X_2$ no son independientes, sin embargo, son condicionalmente
+independientes ($X_1 \perp X_2 \vert Z$), pues cuando se cual moneda voy a 
+lanzar el resultado del primer lanzamiento ya no aporta información 
+adicional para el segundo lanzamiento. Calcularemos
+la distribución conjunta y la distribución condicional de $X_2$ dado $X_1$.
 
 
 La distribución conjunta esta determinada por la siguiente tabla:
@@ -1343,7 +1351,5 @@ astronómicas.
 
 Por otra parte, si el problema es relativamente ralo en sus dependencias (lo 
 cual sucede en muchos problemas reales), entonces es factible entender, modelar 
-y calcular con la conjunta implícita en un conjunto de distribuciones 
-condicionales que determina la conjunta.
-
-
+y calcular con la distribución conjunta implícita en un conjunto de distribuciones 
+condicionales que determinan la conjunta.
