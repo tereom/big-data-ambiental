@@ -69,7 +69,7 @@ Un **evento** es un subconjunto del espacio muestral, los eventos usualmente se
 denotan por letras mayúsculas.
 </div>
 
-El evento: que la primer lanzamiento resulte águila es
+El evento: que el primer lanzamiento resulte águila es
 
 $$A=\{AA, AS\}$$
 
@@ -103,7 +103,7 @@ $$P(A)=\frac{\#(A)}{\#(\Omega)}$$
 Por lo que solo hace falta contar.
 
 Por ejemplo, la probabilidad de obtener $AA$ si lanzamos una moneda dos veces
-es $1/4 = 0.25$, y la probabilidad del evento que la primer lanzamiento resulte 
+es $1/4 = 0.25$, y la probabilidad del evento que al primer lanzamiento resulte 
 águila es $2/4 = 0.5$.
 
 ![](imagenes/manicule2.jpg) Lanzamos un dado y anotamos el número de la cara
@@ -184,7 +184,7 @@ números):
 
 ```{r, fig.width=8.2, fig.height=3.8}
 n <- 1000
-data_frame(num_lanzamiento = 1:n, lanzamiento = sample(c("A", "S"), n, replace = TRUE)) %>% 
+tibble(num_lanzamiento = 1:n, lanzamiento = sample(c("A", "S"), n, replace = TRUE)) %>% 
     mutate(frec_rel = cummean(lanzamiento == "A")) %>%
     ggplot(aes(x = num_lanzamiento, y = frec_rel)) +
         geom_hline(yintercept = 0.5, color = "red", alpha = 0.5) +
@@ -197,7 +197,7 @@ Veamos las frecuencias relativas para 3 series de 1000 lanzamientos.
 
 ```{r, fig.width=8.2, fig.height=3.8}
 lanzar <- function(n = 1000){
-    data_frame(num_lanzamiento = 1:n, lanzamiento = sample(c("A", "S"), n, replace = TRUE)) %>% 
+    tibble(num_lanzamiento = 1:n, lanzamiento = sample(c("A", "S"), n, replace = TRUE)) %>% 
         mutate(frec_rel = cummean(lanzamiento == "A"))
   }
 head(lanzar())
@@ -245,7 +245,7 @@ probables entonces el evento AA tiene posibilidad de 1/4.
 ¿Cuál es la respuesta correcta?  
 
 En cuanto a teoría formal todas son correctas, cada escenario tiene supuestos
-de resultados equiprobables claramente enunciados y en base a éstos determina
+de resultados equiprobables claramente enunciados y con base en éstos determina
 una probabilidad de manera correcta; sin embargo, los supuestos son diferentes
 y por tanto también las conclusiones. Únicamente una de las soluciones puede
 ser consistente con la interpretación frecuentista, ¿cuál es?
@@ -266,8 +266,8 @@ de igualmente probables es apropiado a un cierto nivel de descripción
 determinado, este _nivel_ no es algo que se pueda juzgar usando únicamente
 matemáticas, sino que se debe juzgar usando una interpretación de la 
 probabilidad, como frecuencias relativas en ensayos. Más aún, hay ejemplos
-donde las monedas no son _justas_, o el sexo de un bebé recién nacido, donde 
-el supuesto de equiprobabilidad no es adecuado.
+donde las monedas no son _justas_, o como la predeción del sexo de 
+un bebé recién nacido, donde el supuesto de equiprobabilidad no es adecuado.
 
 ## Simulación para el cálculo de probabilidades
 En el ejemplo anterior vimos que puede ser sencillo usar simulación para 
@@ -302,7 +302,7 @@ conformado por 3 hombres y 2 mujeres?
 H_1,H_2H_3H_4H_5,H_2H_3H_4H_5H_6\}$. 
 
 2. Se seleccionan 5 integrantes al azar del conjunto de hombres y mujeres, es
-claro que cada persona solo puee estar una vez.
+claro que cada persona solo puede estar una vez.
 
 3. 
 
@@ -339,8 +339,9 @@ de $5 cada vez que apuesto?
 
 Siguiendo los pasos enunciados:
 
-1. El espacio de resultados es $\Omega = \{GGGGGGGGGGGGGGGGGGGG, 
-PGGGGGGGGGGGGGGGGGGGGGG, GPGGGGGGGGGGGGGGGGGGGGG, ...\}$.
+1. El espacio de resultados es $\Omega = \{GGGGGGGGGGGGGGGGGGGG, \\
+                              \mspace{40mu}PGGGGGGGGGGGGGGGGGGGGGG,\\
+                              \mspace{40mu}GPGGGGGGGGGGGGGGGGGGGGG, ...\}$
 
 2. El jugador juega mientras tenga capital y este sea menor a $200, el 
 monto de la apuesta está fijo en $5, no importa el capital en cada momento. La
@@ -398,7 +399,7 @@ calcula_prob <- function(n_personas = 100, n_sims = 1000){
     rerun(n_sims, cumpleanos(n = n_personas)) %>% flatten_dbl() %>% mean()
 }
 
-probs_sim <- data_frame(n_personas = 2:60) %>% 
+probs_sim <- tibble(n_personas = 2:60) %>% 
     mutate(p_sim = map_dbl(n_personas, ~calcula_prob(n_personas = .)))
 dplyr::filter(probs_sim, p_sim > 0.44, p_sim < 0.56)
 ggplot(probs_sim, aes(x = n_personas, y = p_sim)) +
@@ -447,9 +448,9 @@ rerun(1000, pups()) %>% flatten_dbl() %>% mean()
 
 
 Podemos generalizar las definiciones de equiprobable al caso continuo, como 
-ejemplo supongamos que se lanza un dado a un table cuadrandgular de lado 2, 
-¿cuál es la probabilidad de que el dado caiga en el círculo de radio 1 inscrito 
-en un cuadrado de lado 2?
+ejemplo supongamos que se lanza un dado a un tablero cuadrandgular de lado con longitud 2, 
+¿cuál es la probabilidad de que el dado caiga en el círculo de radio 1 inscrito (contenido) 
+en un cuadrado de lado con longitud 2?
 
 ```{r, eval = FALSE}
 tablero <- ggplot() + 
@@ -460,14 +461,13 @@ tablero <- ggplot() +
 ggsave("imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
 
-```{r, out.width = "400px"}
+```{r, out.width = "400px", echo=FALSE, message=FALSE}
 knitr::include_graphics("imagenes/tablero.png")
 ```
 
-En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
-al evento tal que el dardo cae en el círculo, entonces:
+En este caso usamos áreas relativas (círculo $\phi$ y cuadrado $\Omega$) para calcular la probabilidad: denotemos C al evento tal que el dardo cae en el círculo, entonces:
 
-$$P(B) = \frac{Área(B)}{Área(\Omega)}$$
+$$P(C) = \frac{Área(\phi)}{Área(\Omega)}$$
 ¿Y simulando?
 
 ```{r}
@@ -480,7 +480,7 @@ rerun(10000, circunferencia()) %>% flatten_dbl() %>% mean()
 ```
 
 ```{r, eval = FALSE}
-dardos <- data_frame(x = runif(1000, -1, 1), y = runif(1000, -1, 1), 
+dardos <- tibble(x = runif(1000, -1, 1), y = runif(1000, -1, 1), 
     en_circulo = sqrt(x ^ 2 + y ^ 2) < 1)
 
 tablero_dardos <- tablero +
@@ -533,7 +533,7 @@ $$P([a, b]) = \frac{b-a}{1} = \int_a^b 1dx$$
 Ahora, si el dardo cae en ciertas zonas con mayor probabilidad:
 
 ```{r, out.width="350px"}
-ggplot(data_frame(x = c(0 , 1)), aes(x)) + 
+ggplot(tibble(x = c(0 , 1)), aes(x)) + 
     stat_function(fun = dbeta, args = list(shape1 = 5, shape2 = 2)) +
     geom_rect(data = NULL, aes(xmin = 0, xmax = 1, ymin = 0, ymax = 1), 
         fill = "red", alpha = 0.2)
@@ -561,7 +561,7 @@ mean(sims_x > 0.2 & sims_x < 0.5)
 ```
 
 ```{r, out.width="350px"}
-data_frame(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y, 
+tibble(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y, 
     en_int = dentro * (x > 0.2 & x < 0.5), cat = case_when(!dentro ~ "a", 
         dentro & en_int ~ "b", TRUE ~ "c")) %>% 
     ggplot()+ 
@@ -699,7 +699,8 @@ $$E(X)=aP(a)+bP(b).$$
 
 Ejemplo: Supongamos que $X$ es el valor que se produce cuando tiro un
 dado justo. Entonces,
-$$E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5$$
+$$E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +\\
+       \mspace{92mu}4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5$$
 Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el promedio de las tiradas sea cercano a 3.5.
 
 **Esperanza como un promedio cuando n es grande**. Si vemos las probabilidades de los valores de $X$ como una aproximación de frecuencias relativas cuando n es grande, entonces $E(X)$ es aproximadamente el valor promedio del valor de $X$ cuando n es grande.
