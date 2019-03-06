@@ -788,21 +788,21 @@ En el caso **discreto bivariado**, dado las variables aleatorias discretas $X$ y
 $Y$, definimos la función de densidad conjunta como $f(x,y)=P(X=x, Y=y)$.
 </div>
 
-**Ejemplo.** Consideremos una distribución sobre la población de departamentos 
-en renta de Hong Kong, el espacio de resultados es el conjunto de todos los 
-departamentos en la población. En muchas ocasiones buscamos resolver preguntas 
+**Ejemplo.** Consideremos una distribución de probabilidad sobre la población 
+de habitats para un jaguar en Veracruz. El espacio de resultados es el conjunto de todos los 
+hábitats en la población. En muchas ocasiones buscamos resolver preguntas 
 que involucran más de una variable aleatoria, en este ejemplo nos interesan:  
 
-+ Renta mensual: toma los valores baja (≤1k), media ((1k,5k]), 
++ Abundancia de presas: toma los valores baja (≤1k), media ((1k,5k]), 
 media alta ((5k,12k]) y alta (>12k).  
 
-+ Tipo de departamento: toma 3 valores, público, privado u otros. 
++ Tipo de habitat: toma 3 valores, agropecuario, protegido u otros. 
 
 La distribución conjunta de variables aleatorias discretas se puede representar 
 por medio de tablas.
 
 <div class="mi-tabla">
-Renta/Tipo    |público | privado |otros  
+Presas/Tipo    |agropecuario | protegido |otros  
 --------------|------|-----|----  
 **baja**      |0.17  |0.01 |0.02  
 **media**     |0.44  |0.03 |0.01  
@@ -852,12 +852,12 @@ $$p_{X_j}(x_j) = \int_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)dx_1,...,dx
 <br/>
 
 
-**Ejemplo.** Retomando el problema de los departamentos, ¿Cuál es la 
-probabilidad de que un departamento elegido al azar tenga renta baja?
+**Ejemplo.** Retomando el problema de los hábitats del jaguar, ¿Cuál es la 
+probabilidad de que uno de ellos elegido al azar tenga abundancia de presas baja?
 
 <!--
 
-Renta/Tipo    |público | privado |otros |p(Renta)  
+Presas/Tipo    |agropecuario | protegido |otros |p(Presas)  
 --------------|:--------|:---------|:------|:-------  
 **baja**      |0.17    |0.01     |0.02   | **0.2**
 **media**     |0.44    |0.03     |0.01   | **0.48**
@@ -875,9 +875,9 @@ condicional de $A$ dado $B$ es
 $$P(A|B)=\frac{P(AB)}{P(B)}$$
 </div>
 
-**Ejemplo.** ¿Cuál es la probabilidad de que un departamento privado tenga
-renta _baja_?  ¿Cómo se compara con la probabilidad de que la renta sea baja 
-(desconozco el tipo de departamento)?
+**Ejemplo.** ¿Cuál es la probabilidad de que los hábitats protegidos tengan
+abundancia _baja_ de presas?  ¿Cómo se compara con la probabilidad de que la
+abundancia de presas sea baja (desconozco el tipo de hábitat)?
 
 La noción de probabilidad condicional se extiende a distribuciones 
 condicionales:
@@ -890,14 +890,14 @@ $$p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}$$
 </div>
 <br/>
 
-**Ejemplo.** ¿Cuál es la distribución condicional de _renta_ dado tipo 
-_privado_? Para obtener toda la distribución condicional calculamos los dos casos 
-restantes (renta media, media alta y alta).
+**Ejemplo.** ¿Cuál es la distribución condicional de _presas_ dado tipo 
+_protegido_? Para obtener toda la distribución condicional calculamos los dos casos 
+restantes (abudnancia de presas media, media alta y alta).
 <br/>
 
-Vale la pena destacar que una distribución condicional es una distribución de 
-probabilidad. En el ejemplo anterior, notemos que cada renglón de la tabla
-probabilidades suman uno, son no negativas y menores que uno.
+Hay que destacar que una distribución condicional se asocia también a una distribución de 
+probabilidad. En el ejemplo anterior, verifiquemos que cada renglón de la tabla
+de probabilidades suma uno, tiene sólo valores positivos y menores o igual que uno.
 
 #### Probabilidad Total {-}
 
@@ -908,12 +908,13 @@ De manera más general, sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes 
 $$P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).$$
 </div>
 
-**Ejemplo.** Supongamos que una aseguradora clasifica a la gente en tres grupos 
-de acuerdo a su nivel de riesgo: _bajo_, _medio_ y _alto_. De acuerdo a los registros, 
-las probabilidades de incurrir en un accidente en un laspo de un año son $0.05$,
-$0.15$ y $0.30$ respectivamente. Si el $20\%$ de la población se clasifica en riesgo 
-bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de la población tiene un
-accidente en un año dado?
+**Ejemplo.** Supongamos que el conejo de las montañas o zacatuche (_Romerolagus diazi_)
+esta amenazado de desaparecer en varias localidades y que el riesgo de que eso 
+ocurra puede ser de nivel: _bajo_, _medio_ y _alto_. De acuerdo con los registros, 
+las probabilidades de que esto ocurra en el lapso de 1 año se estima son $0.05$,
+$0.15$ y $0.30$ respectivamente. Si el $20\%$ de las localidades se clasifican en riesgo 
+bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de las localidades perderan 
+al zacatuche en un año dado?
 
 Para variables aleatorias tenemos:
 
@@ -925,16 +926,16 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 <br/>
 
 ![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si observo un número
-par lanzo una moneda justa 
-(la probabilidad de observar águila es la misma que la de observar sol), si el 
-dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad 
-de observar águila es $0.9$. Si observo sol, ¿Cuál es la probabilidad de que haya 
-lanzado la moneda sesgada?
+par, lanzo en seguida una moneda justa (la probabilidad de observar águila con 
+ella es la misma que la de observar sol), si el dado muestra un número impar
+lanzo una moneda sesgada en la que la probabilidad de observar águila es $0.9$.
+Si observo sol, ¿Cuál es la probabilidad de que haya lanzado la moneda sesgada?
 
 El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente 
 conozco la probabilidad de observar sol condicional a que la moneda es sesgada 
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
 sesgada una vez que observé un sol en el volado.
+
 
 ### Regla de Bayes {-}
 La regla de Bayes es una consecuencia de la definición de probabilidad 
