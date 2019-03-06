@@ -5,10 +5,10 @@ bookdown::gitbook:
     toc:
       collapse: subsection
       before: |
-        <li><a href="./">Estadística Computacional</a></li>
+        <li><a href="./">Big Data ambiental</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
-    edit: https://github.com/tereom/est-computacional-2018/edit/master/%s
+    edit: https://github.com/tereom/big-data-ambiental/edit/master/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
