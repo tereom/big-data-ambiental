@@ -788,10 +788,15 @@ En el caso **discreto bivariado**, dado las variables aleatorias discretas $X$ y
 $Y$, definimos la función de densidad conjunta como $f(x,y)=P(X=x, Y=y)$.
 </div>
 
-**Ejemplo.** Consideremos una distribución de probabilidad sobre la población 
-de habitats para un jaguar en Veracruz. El espacio de resultados es el conjunto de todos los 
-hábitats en la población. En muchas ocasiones buscamos resolver preguntas 
-que involucran más de una variable aleatoria, en este ejemplo nos interesan:  
+**Ejemplo.**
+
+![](imagenes/Jaguar.jpg){width=50%}
+
+Consideremos una distribución de probabilidad sobre la colección 
+de habitats para un jaguar en Veracruz. El espacio de resultados 
+es el conjunto de todos los hábitats en la población. En muchas 
+ocasiones buscamos resolver preguntas que involucran más de una
+variable aleatoria, en este ejemplo nos interesan:  
 
 + Abundancia de presas: toma los valores baja (≤1k), media ((1k,5k]), 
 media alta ((5k,12k]) y alta (>12k).  
@@ -902,19 +907,24 @@ de probabilidades suma uno, tiene sólo valores positivos y menores o igual que 
 #### Probabilidad Total {-}
 
 <div class ="caja">
-Sean $E$, $F$ dos eventos entonces, 
+Sean $E$, $F$ dos eventos, entonces: 
 $$P(E) = P(E\vert F)P(F) + P(E\vert F^c)P(F^c).$$
 De manera más general, sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
 $$P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).$$
 </div>
 
-**Ejemplo.** Supongamos que el conejo de las montañas o zacatuche (_Romerolagus diazi_)
-esta amenazado de desaparecer en varias localidades y que el riesgo de que eso 
-ocurra puede ser de nivel: _bajo_, _medio_ y _alto_. De acuerdo con los registros, 
-las probabilidades de que esto ocurra en el lapso de 1 año se estima son $0.05$,
-$0.15$ y $0.30$ respectivamente. Si el $20\%$ de las localidades se clasifican en riesgo 
-bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de las localidades perderan 
-al zacatuche en un año dado?
+**Ejemplo.**
+
+![](imagenes/Teporingo-1.jpg){ width=50% }
+
+Supongamos que el conejo de las montañas, teporingo
+o zacatuche (_Romerolagus diazi_) tenga abundancias peligrosamente bajas en 
+varias localidades y que las localidades pueden estar en ese riesgo con nivel:
+_bajo_, _medio_ y _alto_. De acuerdo con los registros, las probabilidades 
+de que esto ocurra a los sitios en el lapso de 1 año se estima son $0.05$,
+$0.15$ y $0.30$ respectivamente. Si el $20\%$ de las localidades se clasifican
+en riesgo bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de las 
+localidades tendrán amenazado al zacatuche en un año dado?
 
 Para variables aleatorias tenemos:
 
@@ -925,7 +935,7 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 </div>
 <br/>
 
-![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si observo un número
+![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si cae con un número
 par, lanzo en seguida una moneda justa (la probabilidad de observar águila con 
 ella es la misma que la de observar sol), si el dado muestra un número impar
 lanzo una moneda sesgada en la que la probabilidad de observar águila es $0.9$.
@@ -948,9 +958,9 @@ $$P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}$$
 esta identidad se conoce como la **regla de Bayes**.
 </div>
 
-**Ejemplo.** En el contexto del ejemplo de los seguros ahora nos hacemos la
-siguiente pregunta: si un asegurado tuvo accidentes en 2013, ¿cuál es la 
-probabilidad de que clasifique en riesgo bajo?
+**Ejemplo.** En el contexto del ejemplo del zacatuche, nos podemos hacer la
+siguiente pregunta: si una localidad resultó con abundancias peligrosamente bajas de
+zacatuche en 2013, ¿cuál es la probabilidad de que clasifique en riesgo _bajo_?
 
 <!--
 $$P(B\vert Accidente) = \frac{P(Accidente\vert B)P(B)}{P(Accidente\vert B)P(B) + P(Accidente\vert M)P(M) + P(Accidente\vert A)P(A)}$$
@@ -962,14 +972,14 @@ La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accid
 ![](imagenes/manicule2.jpg) [La intuición es engañosa](http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175): 
 En estudios en Alemania y EUA, investigadores
 le pidieron a médicos que estimaran la probabilidad de que una mujer 
-asintomática entre los $40$ y $50$ años tuviera cáncer de mama si su mamograma 
-era positivo. Se les explicó que el $7\%$ de los mamogramas indican cáncer cuando
+asintomática entre los $40$ y $50$ años tuviera cáncer de mama si su mamografía 
+era positivo. Se les explicó que el $7\%$ de las mamografías indican cáncer cuando
 no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que 
 la incidencia de cáncer de mama en ese grupo de edad es $0.8\%$ y la tasa de 
 falsos negativos de $10\%$. En Alemania, un tercio de los médicos determinaron
 que la probabilidad era cercana al $90\%$ y la mediana de las estimaciones fue
 $70\%$. En EUA $95$ de $100$ médicos estimaron que la probabilidad rondaba el $75\%$.
-¿Cómo determinas la probabilidad de que una mujer con mamograma positivo tenga
+¿Cómo determinas la probabilidad de que una mujer con mamografía positiva tenga
 cáncer?
 
 
