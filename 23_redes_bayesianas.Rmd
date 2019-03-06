@@ -34,7 +34,11 @@ red de seguros de auto.
 En este ejemplo nos interesa entender los patrones de dependencia entre 
 variables como edad, calidad de conductor y tipo de accidente:
 
-```{r}
+```{r warning=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+  BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
+
 library(bnlearn)
 head(insurance)
 insurance_dat <- insurance[, c('Age', 'GoodStudent', 'SocioEcon', 'RiskAversion',
@@ -530,6 +534,13 @@ En este caso, podemos examinar las marginales condicionales a toda la evidencia
 Por ejemplo, ¿cómo se ven las marginales cuando sabemos que el piso está muy resbaladizo?
 
 ```{r, warning=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+{
+  BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
+  BiocManager::install("RBGL", ask = FALSE)
+}
+
 library(gRain)
 comp_jardin <- compile(as.grain(modelo_jardin))
 querygrain(comp_jardin)

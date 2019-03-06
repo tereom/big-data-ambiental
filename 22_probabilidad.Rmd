@@ -34,7 +34,7 @@ el fenómeno. Es esta dependencia de la estadística con la teoría de probabili
 
 -->
 
-```{r, echo = FALSE, message=FALSE, error=TRUE}
+```{r echo=FALSE, error=TRUE, message=FALSE}
 knitr::opts_chunk$set(
     comment = "#>",
     collapse = TRUE
