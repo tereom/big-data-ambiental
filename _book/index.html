@@ -5,27 +5,27 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook.">
+  <title>Big Data Ambiental</title>
+  <meta name="description" content="Notas del curso big data ambiental.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="A Minimal Book Example" />
+  <meta property="og:title" content="Big Data Ambiental" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="Notas del curso big data ambiental." />
+  <meta name="github-repo" content="tereom/big-data-ambiental" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Minimal Book Example" />
+  <meta name="twitter:title" content="Big Data Ambiental" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Notas del curso big data ambiental." />
   
 
-<meta name="author" content="Yihui Xie">
+<meta name="author" content="Julián Equihua, Miguel Equihua, Miguel Hidalgo, Octavio Pérez, Oliver López, Teresa Ortiz">
 
 
-<meta name="date" content="2019-02-21">
+<meta name="date" content="2019-03-06">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 
-<link rel="next" href="intro.html">
+<link rel="next" href="temario.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -68,7 +68,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -114,7 +114,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+<link rel="stylesheet" href="css\toc.css" type="text/css" />
+<link rel="stylesheet" href="css\font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css\cajas.css" type="text/css" />
 </head>
 
 <body>
@@ -127,21 +130,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Big Data ambiental</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="1" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>1</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="1.1" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i><b>1.1</b> Probabilidad como extensión a proporción</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html#ejemplo-combinaciones"><i class="fa fa-check"></i>— Ejemplo: combinaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>1.2</b> Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="1.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>1.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="1.4" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html"><i class="fa fa-check"></i><b>1.4</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html#propiedades-de-la-funcion-de-probabilidad"><i class="fa fa-check"></i><b>1.4.1</b> Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>1.5</b> Variables aleatorias</a></li>
+<li class="chapter" data-level="1.6" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>1.6</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="repite-el-enunciado-de-las-lineas-938-a-942.html"><a href="repite-el-enunciado-de-las-lineas-938-a-942.html"><i class="fa fa-check"></i><b>1.7</b> — Repite el enunciado de las líneas 938 a 942</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="repite-el-enunciado-de-las-lineas-938-a-942.html"><a href="repite-el-enunciado-de-las-lineas-938-a-942.html#esto-repite-el-enunciado-de-las-lineas-1090-a-1100"><i class="fa fa-check"></i><b>1.7.1</b> — Esto repite el enunciado de las líneas 1090 a 1100</a></li>
+<li class="chapter" data-level="1.7.2" data-path="repite-el-enunciado-de-las-lineas-938-a-942.html"><a href="repite-el-enunciado-de-las-lineas-938-a-942.html#repite-el-enunciado-en-las-lineas-1113-a-1119"><i class="fa fa-check"></i><b>1.7.2</b> — Repite el enunciado en las líneas 1113 a 1119</a></li>
+<li class="chapter" data-level="1.7.3" data-path="repite-el-enunciado-de-las-lineas-938-a-942.html"><a href="repite-el-enunciado-de-las-lineas-938-a-942.html#esto-repite-el-enunciado-en-las-lineas-1135-a-1190"><i class="fa fa-check"></i><b>1.7.3</b> — Esto repite el enunciado en las líneas 1135 a 1190</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="redes-bayesianas.html"><a href="redes-bayesianas.html"><i class="fa fa-check"></i><b>2</b> Redes bayesianas</a><ul>
+<li class="chapter" data-level="" data-path="redes-bayesianas.html"><a href="redes-bayesianas.html#intoduccion-modelos-graficos"><i class="fa fa-check"></i>Intoducción: Modelos gráficos</a></li>
+<li class="chapter" data-level="" data-path="redes-bayesianas.html"><a href="redes-bayesianas.html#por-que-modelos-graficos"><i class="fa fa-check"></i>¿Por qué modelos gráficos?</a></li>
+<li class="chapter" data-level="2.1" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html"><i class="fa fa-check"></i><b>2.1</b> Gráficas dirigidas</a><ul>
+<li class="chapter" data-level="" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#probabilidad-conjunta-y-factorizaciones"><i class="fa fa-check"></i>Probabilidad conjunta y factorizaciones</a></li>
+<li class="chapter" data-level="2.1.1" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#factorizaciones-de-la-conjunta-y-graficas-dirigidas."><i class="fa fa-check"></i><b>2.1.1</b> Factorizaciones de la conjunta y gráficas dirigidas.</a></li>
+<li class="chapter" data-level="2.1.2" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#redes-bayesianas-1"><i class="fa fa-check"></i><b>2.1.2</b> Redes bayesianas</a></li>
+<li class="chapter" data-level="2.1.3" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#independencia-condicional-y-redes-bayesianas"><i class="fa fa-check"></i><b>2.1.3</b> Independencia condicional y redes bayesianas</a></li>
+<li class="chapter" data-level="2.1.4" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#flujo-de-informacion-probabilistica"><i class="fa fa-check"></i><b>2.1.4</b> Flujo de información probabilística</a></li>
+<li class="chapter" data-level="2.1.5" data-path="graficas-dirigidas.html"><a href="graficas-dirigidas.html#caminos-pelota-de-bayes"><i class="fa fa-check"></i><b>2.1.5</b> Caminos: pelota de Bayes</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="flujo-de-probabilidad-y-d-separacion.html"><a href="flujo-de-probabilidad-y-d-separacion.html"><i class="fa fa-check"></i><b>2.2</b> Flujo de probabilidad y d-Separación</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="flujo-de-probabilidad-y-d-separacion.html"><a href="flujo-de-probabilidad-y-d-separacion.html#equivalencia-markoviana"><i class="fa fa-check"></i><b>2.2.1</b> Equivalencia Markoviana</a></li>
+<li class="chapter" data-level="2.2.2" data-path="flujo-de-probabilidad-y-d-separacion.html"><a href="flujo-de-probabilidad-y-d-separacion.html#resumen"><i class="fa fa-check"></i><b>2.2.2</b> Resumen</a></li>
+<li class="chapter" data-level="2.2.3" data-path="flujo-de-probabilidad-y-d-separacion.html"><a href="flujo-de-probabilidad-y-d-separacion.html#ejemlos"><i class="fa fa-check"></i><b>2.2.3</b> Ejemlos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="modelos-locales.html"><a href="modelos-locales.html"><i class="fa fa-check"></i><b>2.3</b> Modelos locales</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="modelos-locales.html"><a href="modelos-locales.html#tablas-de-probabilidad-condicional"><i class="fa fa-check"></i><b>2.3.1</b> Tablas de probabilidad condicional</a></li>
+<li class="chapter" data-level="2.3.2" data-path="modelos-locales.html"><a href="modelos-locales.html#estimacion-directa-por-maxima-verosimilitud"><i class="fa fa-check"></i><b>2.3.2</b> Estimación directa por máxima verosimilitud</a></li>
+<li class="chapter" data-level="2.3.3" data-path="modelos-locales.html"><a href="modelos-locales.html#probabilidades-condicionales-basadas-en-arboles"><i class="fa fa-check"></i><b>2.3.3</b> Probabilidades condicionales basadas en árboles</a></li>
+<li class="chapter" data-level="2.3.4" data-path="modelos-locales.html"><a href="modelos-locales.html#modelos-lineales-generalizados"><i class="fa fa-check"></i><b>2.3.4</b> Modelos lineales generalizados</a></li>
+<li class="chapter" data-level="2.3.5" data-path="modelos-locales.html"><a href="modelos-locales.html#nodos-multinomiales"><i class="fa fa-check"></i><b>2.3.5</b> Nodos multinomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="scores-de-estructura.html"><a href="scores-de-estructura.html"><i class="fa fa-check"></i><b>2.4</b> Scores de estructura</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="scores-de-estructura.html"><a href="scores-de-estructura.html#maxima-verosimilitud"><i class="fa fa-check"></i><b>2.4.1</b> Máxima verosimilitud</a></li>
+<li class="chapter" data-level="2.4.2" data-path="scores-de-estructura.html"><a href="scores-de-estructura.html#maxima-verosimilitud-y-sobreajuste"><i class="fa fa-check"></i><b>2.4.2</b> Máxima verosimilitud y sobreajuste</a></li>
+<li class="chapter" data-level="2.4.3" data-path="scores-de-estructura.html"><a href="scores-de-estructura.html#penalizacion-por-complejidad-y-score-aic"><i class="fa fa-check"></i><b>2.4.3</b> Penalización por complejidad y score AIC</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="procedimiento-de-busqueda.html"><a href="procedimiento-de-busqueda.html"><i class="fa fa-check"></i><b>2.5</b> Procedimiento de búsqueda</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="procedimiento-de-busqueda.html"><a href="procedimiento-de-busqueda.html#hill-climbing"><i class="fa fa-check"></i><b>2.5.1</b> Hill-climbing</a></li>
+<li class="chapter" data-level="2.5.2" data-path="procedimiento-de-busqueda.html"><a href="procedimiento-de-busqueda.html#incorporando-informacion-acerca-de-la-estructura"><i class="fa fa-check"></i><b>2.5.2</b> Incorporando información acerca de la estructura</a></li>
+<li class="chapter" data-level="2.5.3" data-path="procedimiento-de-busqueda.html"><a href="procedimiento-de-busqueda.html#sentido-de-las-aristas"><i class="fa fa-check"></i><b>2.5.3</b> Sentido de las aristas</a></li>
+<li class="chapter" data-level="2.5.4" data-path="procedimiento-de-busqueda.html"><a href="procedimiento-de-busqueda.html#variaciones-de-hill-climbing"><i class="fa fa-check"></i><b>2.5.4</b> Variaciones de Hill-climbing</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="algunos-ejemplos-reales.html"><a href="algunos-ejemplos-reales.html"><i class="fa fa-check"></i><b>2.6</b> Algunos ejemplos reales</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
 
 </ul>
 
@@ -152,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Big Data Ambiental</a>
           </h1>
         </div>
 
@@ -161,20 +214,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">A Minimal Book Example</h1>
-<p class="author"><em>Yihui Xie</em></p>
-<p class="date"><em>2019-02-21</em></p>
+<h1 class="title">Big Data Ambiental</h1>
+<p class="author"><em>Julián Equihua, Miguel Equihua, Miguel Hidalgo, Octavio Pérez, Oliver López, Teresa Ortiz</em></p>
+<p class="date"><em>2019-03-06</em></p>
 </div>
-<div id="prerequisites" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>. You can use anything that Pandoc’s Markdown supports, e.g., a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)
-<span class="co"># or the development version</span>
-<span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></code></pre>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
-
+<div id="informacion-del-curso" class="section level1 unnumbered">
+<h1>Información del curso</h1>
+<p>En el estado actual de la comprensión de los desafíos que implica el desarrollo humano en
+co‐evolución con los ecosistemas ha venido emergiendo la llamada ciencia de la sustentabilidad
+(Clark et al., 2003; Koss, 2011; Spangenberg, 2011). Surge en un contexto de crisis
+multidimensional que desafía los enfoques adoptados por las disciplinas tradicionales y en
+consecuencia a nuestra propia visión del mundo. Se reconoce que en la forma como el modelo
+económico dominante actual ha concebido los “recursos naturales”, conlleva dos importantes
+errores (Folke et al., 2002). El primer error es el supuesto de que los ecosistemas responden en
+forma lineal, predecible y controlable, al uso humano; el segundo es el suponer que los dos
+sub‐sistemas (humano y natural) deben ser abordados por separado. La emergente ciencia de la
+sustentabilidad surge ante la necesidad de comprender la complejidad en la que la humanidad
+está inmersa y la encrucijada en la que estamos para definir el desarrollo humano y nuestro
+futuro. La complejidad, tanto desde la perspectiva del pensamiento complejo como de la teoría de
+la complejidad (Walby, 2007; Zoya, 2015), nos confrontan a la dificultad de confiar en la ciencia
+para pronosticar la evolución previsible de la realidad. También nos hacen conscientes de la
+responsabilidad ética inherente al uso del conocimiento que impacta sobre el futuro de la
+humanidad (Rozzi et al., 2015; Garnett, 2018). Al mismo tiempo, nos impulsa a buscar, desarrollar
+y utilizar nuevas herramientas predictivas, así como a reconstruir nuestros enfoques. En
+consecuencia, proponemos este curso como un espacio de reflexión sobre el pensamiento
+complejo, así como una introducción a las nuevas herramientas que están surgiendo para
+comprender y analizar la complejidad a partir de los datos que emite, los que cada vez más
+podemos obtener en forma masiva.</p>
+<p></br></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.</p> 
 </div>
             </section>
 
@@ -182,7 +250,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="temario.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -212,14 +280,14 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/tereom/big-data-ambiental/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {
 "link": null,
 "text": null
 },
-"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"download": ["big-data-ambiental.pdf", "big-data-ambiental.epub"],
 "toc": {
 "collapse": "subsection"
 }
