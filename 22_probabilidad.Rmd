@@ -458,11 +458,11 @@ tablero <- ggplot() +
     geom_rect(aes(xmin = -1, xmax = 1,   ymin = -1, ymax = 1),   fill = "white", 
         color = "black", alpha = 0.5) +
     coord_equal()
-ggsave("imagenes/tablero.png", tablero, width = 3, height = 3)
+ggsave("./imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
 
-```{r, out.width = "400px", echo=FALSE, message=FALSE}
-knitr::include_graphics("imagenes/tablero.png")
+```{r echo=FALSE, message=FALSE, out.width="400px"}
+knitr::include_graphics("./imagenes/tablero.png")
 ```
 
 En este caso usamos áreas relativas (círculo $\phi$ y cuadrado $\Omega$) para calcular la probabilidad: denotemos C al evento tal que el dardo cae en el círculo, entonces:
@@ -487,11 +487,11 @@ tablero_dardos <- tablero +
     geom_point(data = dardos, aes(x, y, color = en_circulo), alpha = 0.5, 
         show.legend = FALSE)
 
-ggsave("imagenes/tablero_dardos.png", tablero_dardos, width = 3, height = 3)
+ggsave("./imagenes/tablero_dardos.png", tablero_dardos, width = 3, height = 3)
 ```
 
 ```{r, out.width = "400px"}
-knitr::include_graphics("imagenes/tablero_dardos.png")
+knitr::include_graphics("./imagenes/tablero_dardos.png")
 ```
 
 
@@ -505,12 +505,12 @@ tablero_zonas <- tablero +
         fill = "red", alpha = 0.5) + 
     geom_rect(aes(xmin = -.1, xmax = 0.1,   ymin = -0.1, ymax = 0.1), 
         fill = "red", alpha = 0.5)
-ggsave("imagenes/tablero_zonas.png", tablero_zonas, width = 3, height = 3)
+ggsave("./imagenes/tablero_zonas.png", tablero_zonas, width = 3, height = 3)
 ```
 
 
 ```{r, out.width = "400px"}
-knitr::include_graphics("imagenes/tablero_zonas.png")
+knitr::include_graphics("./imagenes/tablero_zonas.png")
 ```
 
 La definición de probabilidad como área relativa no se puede usar en estos 

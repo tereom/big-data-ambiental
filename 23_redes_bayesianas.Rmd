@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Redes bayesianas
 
 
@@ -1208,7 +1213,7 @@ dat_ing_f <- select(dat_ing, tam_loc, marg, decil, nivelaprob, vehiculo,
                     drenaje, pisos, sexojefe)
 
 black <- data.frame(
-  form = c('drenaje', 'nivelaprob', 'decil', 'decil', 'nivelaprob'),
+  from = c('drenaje', 'nivelaprob', 'decil', 'nivelaprob'),
   to = c('decil', 'sexojefe', 'nivelaprob', 'tam_loc', 'marg'))
 
 net_enigh <- hc(dat_ing_f,  score = 'aic', blacklist = black)

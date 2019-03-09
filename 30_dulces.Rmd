@@ -1,0 +1,101 @@
+---
+title: "Dulces"
+output: html_document
+params:
+  n_limon: 8
+  n_muestra: 10
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+library(ggplot2)
+opts_chunk$set(echo = TRUE)
+muestra  <- params$n_muestra
+dulces <- params$n_limon
+
+```
+
+# Ejemplo dulces en bolsas
+
+Tenemos cinco tipos de bolsas sin marcas particulares que contienen dulces de dos tipo: cereza y limón. En cada bolsa hay distinta proporción de cada uno de ellos:
+
+|bolsa     | cereza |  limón |frecuencia |
+|----------|--------|--------|-----------|
+|$b_1$     |  100%  |   0%   |    0.1    |
+|$b_2$     |   75%  |  25%   |    0.2    |
+|$b_3$     |   50%  |  50%   |    0.4    |
+|$b_4$     |   25%  |  75%   |    0.2    |
+|$b_5$     |    0%  | 100%   |    0.1    |
+
+Recibes de regalo una de estas bolsas ¿de qué tipo será?. De inicio y considerando que no te gustan los dulces de limón, piensas que ojalá tu bolsa sea del tipo $b_3$, notando que es el tipo más frecuente de bolsa. Finalmente, te enfrentas a la realidad y empiezas a examinarlos (es decir, obtienes datos de entrenamiento, $\textbf{d}$) y entonces tu hipótesis respecto del tipo de bolsa que es más probable que tengas se ajustará correspondientemente.
+
+Cada tipo de bolsa tiene probabilidad de estar en tus manos según la siguiente expresión (_verosimilitud_:
+
+$$
+P(b_i|\textbf{d}) = \alpha P(\textbf{d}|b_i) P(b_i)
+$$
+Si nos preguntamos sobre la probabilidad de que el siguiente dulce que tome sea de limón sin saber el tipo de bolsa que tengo, necesito generar la distribución de probabilidades del asunto. Para calcular la distribucipón de probabilidad de una bolsa desconocida, dada la muestra de dulces que tenga, $\textbf{X}$, recurro a la siguiente expresión (_probabilidad total_):
+$$
+P(X|\textbf{d}) = \sum_{i} P(X|\textbf{d}, b_i) P(b_i|\textbf{d}) = \sum_{i} P(X|b_i)P(b_i|\textbf{d})
+$$
+Si las observacions $\textbf{d}$ son independientes, entonces
+
+$$
+P(\textbf{d}|b_i) = \prod_j P(d_j|b_i)
+$$
+Supongamos que los primeros 10 dulces que sacaste de la bolas fueron todos de limón. ¿Cómo afecta eso mi creencia inicial al pensar que la bolsa era de tipo $b_3$? Con el supuesto de que la bolsa es de tipo 3, las cantidades de los dos dulces es la misma, la probabilidad de cada tipo (suponiendo que no alteramos esas proporciones al sacarlos) es 0.5, y por tanto, la probabilidad de obtener una muestra de 10 dulces de limón condicionado a que tiene una bolsa tipo 3 es: $P(\textbf{d}|b_3) = 5^{10} \approx 0.001$.
+
+
+```{r}
+p_d_b3 <- 0.5^10
+p_d_b3
+
+```
+
+Si hacemos esto mismo para distinto número de apariciones de dulces de limón en la muestra, obtenemos las siguientes gráficas.
+
+```{r, echo=FALSE, message=FALSE}
+priors <- c(0.1, 0.2, 0.4, 0.2, 0.1)
+dulces_limon_hi <- c(0, 0.25, 0.5, 0.75, 1)
+
+verosimilitud_hi_limon <- t(sapply(c(0:10), function(x) dulces_limon_hi^x))
+priors_m <- matrix(priors, nrow = 11, ncol = 5, byrow = TRUE)
+
+total_d_j <- rowSums(priors_m * verosimilitud_hi_limon)
+total_d_j <- matrix(rep(total_d_j, 5), nrow = 11, ncol = 5)
+
+posterior_hi_dj <- as_tibble(priors_m * verosimilitud_hi_limon / total_d_j, 
+                             .name_repair = "unique")
+posterior_hi_dj$n <- 0:10 
+names(posterior_hi_dj) <- c("b1", "b2", "b3", "b4", "b5", "n") 
+posterior_hi_dj_long <- gather(posterior_hi_dj, value = "p", b1:b5, key= "bolsa")
+
+ggplot(posterior_hi_dj_long, aes(x = n, y = p, colour = bolsa)) + 
+    geom_line() + geom_point() + ylim(c(0,1))
+
+```
+
+Una función para calcular estas probabilidades.
+
+```{r }
+bayes_dulces <- function(n_muestra, n_limon, bolsas, prop_dulces)
+{
+    priors <- bolsas
+    dulces_limon_hi <- prop_dulces
+    verosimilitud_hi_n_limon <- dbinom(n_limon, n_muestra, dulces_limon_hi)
+    total_p <- sum(priors * verosimilitud_hi_n_limon)
+    posterior <- priors * verosimilitud_hi_n_limon / total_p
+}
+
+```
+
+¿Qué tipo de bolsa puedo tener si tomo una muestra de `r muestra` dulces y obtengo `r dulces` dulces de limón?
+ 
+```{r, echo=FALSE}
+a <- bayes_dulces(params$n_muestra, params$n_limon, priors, dulces_limon_hi)
+kable(tibble(bolsa=c("b1", "b2", "b3", "b4", "b5"), prior=a), digits = 6) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+```
+
