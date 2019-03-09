@@ -1,6 +1,10 @@
 ---
 title: "Dulces"
-output: html_document
+always_allow_html: yes
+output:
+  html_document: default
+  pdf_document: 
+  word_document: 
 params:
   n_limon: 8
   n_muestra: 10
@@ -18,6 +22,8 @@ dulces <- params$n_limon
 ```
 
 # Ejemplo dulces en bolsas
+
+![](./imagenes/bolsas.png){wicth=50%}
 
 Tenemos cinco tipos de bolsas sin marcas particulares que contienen dulces de dos tipo: cereza y limón. En cada bolsa hay distinta proporción de cada uno de ellos:
 
@@ -73,7 +79,8 @@ names(posterior_hi_dj) <- c("b1", "b2", "b3", "b4", "b5", "n")
 posterior_hi_dj_long <- gather(posterior_hi_dj, value = "p", b1:b5, key= "bolsa")
 
 ggplot(posterior_hi_dj_long, aes(x = n, y = p, colour = bolsa)) + 
-    geom_line() + geom_point() + ylim(c(0,1))
+    geom_line() + geom_point() + ylim(c(0,1)) + xlim(c(0, 10)) +
+    scale_x_continuous("número de dulces de limón", breaks = c(0, 2, 4, 6, 8, 10))
 
 ```
 
@@ -94,8 +101,11 @@ bayes_dulces <- function(n_muestra, n_limon, bolsas, prop_dulces)
 ¿Qué tipo de bolsa puedo tener si tomo una muestra de `r muestra` dulces y obtengo `r dulces` dulces de limón?
  
 ```{r, echo=FALSE}
+library(pander)
+options(kableExtra.auto_format = FALSE)
 a <- bayes_dulces(params$n_muestra, params$n_limon, priors, dulces_limon_hi)
-kable(tibble(bolsa=c("b1", "b2", "b3", "b4", "b5"), prior=a), digits = 6) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+panderOptions("table.style", "simple")
+panderOptions("digits", 4)
+pander(tibble(bolsa=c("b1", "b2", "b3", "b4", "b5"), posterior=a), caption = "Probabilidades _a posteriori_ para cada tipo de bolsa", justify = "center")
 ```
 
