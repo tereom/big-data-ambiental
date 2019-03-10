@@ -23,7 +23,7 @@ dulces <- params$n_limon
 
 # Ejemplo dulces en bolsas
 
-![](./imagenes/bolsas.png){wicth=50%}
+![](./imagenes/bolsas.png){width=50%}
 
 Tenemos cinco tipos de bolsas sin marcas particulares que contienen dulces de dos tipo: cereza y limón. En cada bolsa hay distinta proporción de cada uno de ellos:
 
