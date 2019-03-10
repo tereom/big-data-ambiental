@@ -1226,6 +1226,7 @@ conozco la probabilidad de observar sol condicional a que la moneda es sesgada
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
 sesgada una vez que observé un sol en el volado.
 
+![](./imagenes/bayes.png)
 
 ### Regla de Bayes {-}
 La regla de Bayes es una consecuencia de la definición de probabilidad 
