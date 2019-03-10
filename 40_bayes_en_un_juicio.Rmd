@@ -33,7 +33,9 @@ Entonces podemos calcular el momio de que el acusado sea culpable cuando hemos o
 $$
 O(Culpable|E)= \frac{P(E|Culpable)}{P(E|No culpable)}\cdot O(Culpable)
 $$
-¿Le ponemos números? Veamos un caso en el que se localizan rastros de sangre de un presunto homicida en la escena de un crimen. El análisis forense encuentra que este tipo de sangre se puede encontrar en $\frac{1}{15,000}$ personas en la población de referencia. Con base en este dato podemos calcular el mommio de que se presente la evidencia, considerando que ya sabemos que el culpable tiene ese tipo de sangre, por lo tanto lo conocemos con probabilidad 1:
+
+## Más allá de una duda razonable: _in dubio pro reo_
+¿Le ponemos números? Veamos un caso en el que se localizan rastros de sangre de un presunto homicida en la escena de un crimen. El análisis forense encuentra que este tipo de sangre se puede encontrar en $\frac{1}{15,000}$ personas en la población de referencia. Con base en este dato podemos calcular el momio de que se presente la evidencia, considerando que ya sabemos que el culpable tiene ese tipo de sangre, por lo tanto lo conocemos con probabilidad 1:
 
 ```{r}
 o_evidencia <- 1 / (1 / 15000)
@@ -66,7 +68,9 @@ o_evidencia_culpable
 En este otro escenario el presunto asesino tiene un momio de `r o_evidencia_culpable` en su contra y por lo tanto, la nueva probabilidad de ser culpable a la luz de la evidencia es: `r round(o_evidencia_culpable/(1+o_evidencia_culpable),4) * 100`%. ¿Qué cabría decidir ahora en el juicio?
 
 
-[Lecturas complementaria](https://www.r-bloggers.com/bayesian-blood/)
+[Lectura complementaria](https://www.r-bloggers.com/bayesian-blood/)
+
+[La noticia en el _Guardian_](https://www.theguardian.com/law/2011/oct/02/formula-justice-bayes-theorem-miscarriage)
 
 
 
