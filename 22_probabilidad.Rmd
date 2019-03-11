@@ -97,7 +97,7 @@ de modelos.
 El **espacio de resultados** $\Omega$ es el conjunto de posibles resultados de un
 experimento aleatorio. A los puntos $\omega \in \Omega$ se les conoce como 
 resultados muestrales, o realizaciones del experimento aleatorio.
-```
+</div>
 
 Ejemplo: Si lanzamos una moneda dos veces entonces el espacio de resultados es:
 
@@ -106,7 +106,7 @@ $$\Omega = \{AA, AS, SA, SS \}$$
 <div class="caja">
 Un **evento** es un subconjunto del espacio muestral. Los eventos usualmente se
 denotan por letras mayúsculas.
-```
+</div>
 
 El evento: que la primer lanzamiento resulte águila es el evento
 
@@ -241,7 +241,7 @@ cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
 cumsum(lanzamientos_10 == "A") / 1:10
 ```
 
-### Resultados empíricos acerca de frecuencias relativas
+### Resultados empíricos acerca de frecuencias relativas {-}
 
 Una primera observación empírica es que las frecuencias relativas basadas en un 
 número mayor de observaciones son menos fluctuantes comparado con las 
@@ -378,7 +378,7 @@ conformado por 3 hombres y 2 mujeres?
 H_1,H_2H_3H_4H_5,H_2H_3H_4H_5H_6\}$. 
 
 2. Se seleccionan 5 integrantes al azar del conjunto de hombres y mujeres, es
-claro que cada persona solo puee estar una vez.
+claro que cada persona solo puede estar una vez.
 
 3. 
 
@@ -592,7 +592,7 @@ son diferentes.
 Modelos apropiados para estos experimentos son más complicados, pues 
 no tenemos la simetría que nos da asignaciones automáticas de probabilidades.
 
-### Espacios discretos
+### Espacios discretos {-}
 
 En el caso discreto, podríamos poner:
 
@@ -601,7 +601,7 @@ probabilidades $p_1\ldots p_n$ a cada resultado (pueden ser distintas),
 2. La probabilidad de un evento $A$ es la suma de las probabilidades $p_i$
 de los elementos que están contenidos en $A$.
 
-#### Ejemplo: bolsa acumulada de lotería
+#### Ejemplo: bolsa acumulada de lotería {-}
 Imaginemos que tenemos una lotería tipo Melate. Para simplificar,
 pensemos que se escogen 3 números del 1 al 10, y que tenemos 
 200 concursantes. ¿Cuál es la probabilidad de la bolsa de este
@@ -935,22 +935,6 @@ extremos, por ejemplo en $[0,0.1]$ o $[0.9,1]$, podemos hacer
 $$A = [0,0.1]\cup[0.9,1]$$
 y calcular
 $$P(X\in A) = \int_0^{0.1} f(x)\, dx  + \int_{0.9}^1 f(x)\, dx$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 La **función de distribución acumulada** contiene la misma información que la
 función de distribución y se define como 
