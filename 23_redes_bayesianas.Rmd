@@ -1569,7 +1569,7 @@ dat_sims <- ldply(1:100, function(i){
 # calculamos los cuantiles a partir de las probabilidades simuladas
 dat_sims_1 <- dat_sims %>%
   group_by(sexojefe, nivelaprob, decil) %>%
-  summarise(
+  dplyr::summarise(
     media = mean(prob), 
     q_10 = quantile(prob, 0.1), 
     q_90 = quantile(prob,0.9)
@@ -1791,7 +1791,6 @@ $$x^{(i)}=(x^{(i)}_1,\ldots, x^{(i)}_k).$$
 **Ejemplo.**
 
 ```{r}
-library(plyr)
 library(dplyr)
 adm <- read.csv("datos/admisiones.csv", stringsAsFactors = FALSE)
 head(adm)
