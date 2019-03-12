@@ -1,11 +1,18 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Redes bayesianas
 
+Los paquetes que usaremos en esta sección son:
 
+* CRAN: tidyverse (dplyr, ggplot2, purrr), bnlearn, 
+BiocManager, igraph, gRain.
+
+* Bioconductor: Rgraphviz, RBGL
+
+```
+install.packages("BiocManager")
+BiocManager::install("Rgraphviz")
+```
+
+Y las referencias son @koller, @ross y @wasserman.
 ```{r, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
@@ -27,7 +34,6 @@ options(digits=3)
 
 library(tidyverse)
 library(magrittr)
-library(bnlearn)
 
 theme_set(theme_minimal())
 ```
@@ -52,14 +58,17 @@ En este ejemplo nos interesa entender los patrones de dependencia entre
 variables como edad, calidad de conductor y tipo de accidente:
 
 ```{r echo=FALSE, message=FALSE}
+library(bnlearn)
 
 head(insurance)
 insurance_dat <- insurance[, c('Age', 'GoodStudent', 'SocioEcon', 'RiskAversion',
-                               'Accident','DrivQuality')]
-blacklist <- data.frame(from=c('DrivQuality','Accident'), to=c('Age','DrivQuality'))
+    RiskAversion, Accident, DrivQuality)
+blacklist <- data.frame(from = c("DrivQuality", "Accident"),
+    to = c("Age", "DrivQuality"))
+# write_csv(insurance_dat, "data/insurance_dat.csv")
 ```
 
-Utilizamos una red bayesiana:
+Aprendemos la estructura de la red:
 
 ```{r}
 insurance_gm <- hc(insurance_dat, blacklist = blacklist)
@@ -80,12 +89,10 @@ prop.table(table(insurance$Age, insurance$Accident, insurance$DrivQuality),
            margin = c(1, 3))
 ```
 
-También podemos entender cómo depende calidad de conductor de edad y aversión al
-riesgo (modelo local para DrvQuality):
+También podemos entender cómo depende calidad de conductor de edad y aversión al riesgo (modelo local para DrvQuality):
 
 ```{r, fig.height=3.2, fig.width=7}
-prop_tab_q <- prop.table(table(insurance$DrivQuality, insurance$RiskAversion,
-                               insurance$Age), c(2, 3))
+prop_tab_q <- prop.table(table(insurance$DrivQuality, insurance$RiskAversion, insurance$Age), c(2, 3))
 prop_tab_q
 
 df_q <- data.frame(prop_tab_q)
@@ -577,7 +584,7 @@ query_5 <- setEvidence(comp_jardin, nodes=c('piso', 'regar'),
 querygrain(query_5)$llueve
 ```
 
-![](../../computo/imagenes/manicule2.jpg)  Construir esta red en samiam, y 
+![](imagenes/manicule2.jpg)  Abrir esta red en samiam, y 
 repetir los queries.
 
 ### Independencia condicional y redes bayesianas
@@ -704,7 +711,7 @@ esto es, la calificación es independiente de la dificultad condicional a la
 inteligencia del alumno.
 
 
-![](../../computo/imagenes/manicule2.jpg) Repetir para $p(c|d,i)$.
+![](imagenes/manicule2.jpg) Repetir para $p(c|d,i)$.
 
 
 Este último resultado explica cuáles son las independencias condicionales 
@@ -1574,7 +1581,7 @@ dat_sims <- ldply(1:100, function(i){
 # calculamos los cuantiles a partir de las probabilidades simuladas
 dat_sims_1 <- dat_sims %>%
   group_by(sexojefe, nivelaprob, decil) %>%
-  summarise(
+  dplyr::summarise(
     media = mean(prob), 
     q_10 = quantile(prob, 0.1), 
     q_90 = quantile(prob,0.9)
@@ -1702,9 +1709,13 @@ fit_enigh_b[['decil']] <- tab_decil
 ```
 
 
-![](../../computo/imagenes/manicule2.jpg) Exporta la red a SAMIAM y compara con la red que usó MLE.
+![](imagenes/manicule2.jpg) Exporta la red a SAMIAM y compara con la red que usó MLE.
 
 
+
+
+
+## Scores de estructura
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 library(bnlearn)
@@ -1771,7 +1782,6 @@ $X_1,\ldots, X_k$, entonces hay un total de
 $2^1(2^2)\cdots (2^{k-1})=2^{k(k-1)/2}$ redes distintas 
 que satisfacen el ordenamiento. 
 
-## Scores de estructura
 
 ### Máxima verosimilitud
 
@@ -1796,7 +1806,6 @@ $$x^{(i)}=(x^{(i)}_1,\ldots, x^{(i)}_k).$$
 **Ejemplo.**
 
 ```{r}
-library(plyr)
 library(dplyr)
 adm <- read.csv("datos/admisiones.csv", stringsAsFactors = FALSE)
 head(adm)

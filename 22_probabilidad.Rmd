@@ -25,6 +25,12 @@ probabilidad.
 2. Interpretación frecuentista de probabilidad.
 5. Variables aleatorias.
 
+Los paquetes que usaremos en esta sección son:
+
+* CRAN: tidyverse (dplyr, ggplot2, purrr), ggforce.
+
+Y las referencias son @pitman-prob, @ross y @wasserman.
+
 <!-- Hadley:
 "Probabilidad es la maquinaria matemática necesaria para responder preguntas de
 eventos inciertos"
@@ -40,6 +46,8 @@ para lo cual forzosamente debe utilizar algún modelo probabilístico que descri
 el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
 
 -->
+
+## Juegos de azar 
 
 Históricamente las primeras ideas probabilísticas ocurrieron
 en el contexto de juegos de azar, y la consideración de si una apuesta
@@ -61,6 +69,7 @@ para la formalización de esta idea son las siguientes:
 - Los resultados del experimento (o el juego de azar) son simétricos: nada
 los distingue excepto la etiqueta (por ejemplo el 1 y el 2 en el dado). En este
 caso decimos que estos resultados son "equiprobables".
+
 - La "probabilidad" de un conjunto de resultados es proporcional al tamaño
 del conjunto de resultados (1 y 2 son dos posibles resultados de 6).
 
@@ -80,9 +89,6 @@ etc. el experimento pierde la simetría y el modelo equiprobable puede nos
 ser apropiado.
 
 
-Las referencias para esta sección son @pitman-prob, @ross y @wasserman.
-
-
 ## Probabilidad como extensión de proporción
 
 En esta familia de modelos, la probabilidad se ve como una extensión de la idea 
@@ -97,7 +103,7 @@ de modelos.
 El **espacio de resultados** $\Omega$ es el conjunto de posibles resultados de un
 experimento aleatorio. A los puntos $\omega \in \Omega$ se les conoce como 
 resultados muestrales, o realizaciones del experimento aleatorio.
-```
+</div>
 
 Ejemplo: Si lanzamos una moneda dos veces entonces el espacio de resultados es:
 
@@ -106,7 +112,7 @@ $$\Omega = \{AA, AS, SA, SS \}$$
 <div class="caja">
 Un **evento** es un subconjunto del espacio muestral. Los eventos usualmente se
 denotan por letras mayúsculas.
-```
+</div>
 
 El evento: que la primer lanzamiento resulte águila es el evento
 
@@ -185,7 +191,7 @@ y suele ser necesario conocer técnicas de conteo para resolverlos.
 ## Interpretación frecuentista de probabilidad
 
 Esta interpretación de la probabilidad es fundamental, pero deja sin responder 
-una pregunta crítica: 
+responder una pregunta crítica: 
 
 - ¿Cómo sabemos que un modelo probabilístico de este tipo describe 
 apropiadamente la realidad? ¿Qué pruebas empíricas podemos buscar que de soporte 
@@ -241,7 +247,7 @@ cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
 cumsum(lanzamientos_10 == "A") / 1:10
 ```
 
-### Resultados empíricos acerca de frecuencias relativas
+### Resultados empíricos acerca de frecuencias relativas {-}
 
 Una primera observación empírica es que las frecuencias relativas basadas en un 
 número mayor de observaciones son menos fluctuantes comparado con las 
@@ -378,7 +384,7 @@ conformado por 3 hombres y 2 mujeres?
 H_1,H_2H_3H_4H_5,H_2H_3H_4H_5H_6\}$. 
 
 2. Se seleccionan 5 integrantes al azar del conjunto de hombres y mujeres, es
-claro que cada persona solo puee estar una vez.
+claro que cada persona solo puede estar una vez.
 
 3. 
 
@@ -538,7 +544,7 @@ tablero <- ggplot() +
 ggsave("./imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
 
-```{r, out.width = "400px"}
+```{r, out.width = "400px", echo=FALSE}
 knitr::include_graphics("imagenes/tablero.png")
 ```
 
@@ -546,6 +552,7 @@ En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
 al evento tal que el dardo cae en el círculo, entonces:
 
 $$P(B) = \frac{Área(B)}{Área(\Omega)}$$
+
 ¿Y simulando?
 
 ```{r}
@@ -580,7 +587,6 @@ de un dardo?
 
 En muchos casos, el modelo equiprobable (discreto o continuo) no es tan
 fácil adaptar a problemas particulares de modelación probabilística. Por
-ejemplo:
 
 - En el problema del dardo, como la mayor parte de la gente apunta hacia
 el centro, regiones centrales deberían tener probabilidad mayor que
@@ -592,16 +598,18 @@ son diferentes.
 Modelos apropiados para estos experimentos son más complicados, pues 
 no tenemos la simetría que nos da asignaciones automáticas de probabilidades.
 
-### Espacios discretos
+### Espacios discretos {-}
 
 En el caso discreto, podríamos poner:
 
 1. Si los resultados posibles son $\omega_1,\ldots, \omega_n$, asignamos
 probabilidades $p_1\ldots p_n$ a cada resultado (pueden ser distintas),
+
 2. La probabilidad de un evento $A$ es la suma de las probabilidades $p_i$
 de los elementos que están contenidos en $A$.
 
-#### Ejemplo: bolsa acumulada de lotería
+#### Ejemplo: bolsa acumulada de lotería {-}
+
 Imaginemos que tenemos una lotería tipo Melate. Para simplificar,
 pensemos que se escogen 3 números del 1 al 10, y que tenemos 
 200 concursantes. ¿Cuál es la probabilidad de la bolsa de este
@@ -614,6 +622,7 @@ simulando.
 seleccionar_combinacion <- function(){
     sample(1:10, 3) %>% sort
 }
+
 acumula_bolsa <- function(n_concursantes = 200){
     combinacion_ganadora <- sample(1:10, 3) %>% sort
     boletos <- rerun(n_concursantes, seleccionar_combinacion())
@@ -936,22 +945,6 @@ $$A = [0,0.1]\cup[0.9,1]$$
 y calcular
 $$P(X\in A) = \int_0^{0.1} f(x)\, dx  + \int_{0.9}^1 f(x)\, dx$$
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 La **función de distribución acumulada** contiene la misma información que la
 función de distribución y se define como 
 $$P(X \le x)$$
@@ -1100,6 +1093,7 @@ Presas/Tipo    |agropecuario | protegido |otros
 <div class = "caja">
 En el caso **continuo bivariado**, decimos que la función $p(x,y)$ es una 
 función de densidad de probabilidad para las variables aleatorias $(X,Y)$ si:
+
 1. $p(x,y) \geq 0$ para toda $(x,y)$.  
 
 2. $\int_{-\infty}^{\infty}p(x,y)dxdy=1$.  
@@ -1226,9 +1220,10 @@ conozco la probabilidad de observar sol condicional a que la moneda es sesgada
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
 sesgada una vez que observé un sol en el volado.
 
-![](./imagenes/bayes.png)
+<!--![](./imagenes/bayes.png) falta imagen-->
 
 ### Regla de Bayes {-}
+
 La regla de Bayes es una consecuencia de la definición de probabilidad 
 condicional.
 
@@ -1353,6 +1348,7 @@ p(x, y) = \left\{
 \right.
 $$
 ¿$X$ y $Y$ son independientes?
+
 **Ejercicio**. Recordando el ejemplo de los hábitats del jaguar, veamos si 
 Abundancia de presas y Tipo son independientes, para esto comparemos $p(presas|tipo)$ y 
 $p(presas)$.
@@ -1408,8 +1404,6 @@ $$p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ si y sólo si, 
 $p(x,y,z) \propto g(x,z)h(y,z)$.
 
-## --- Repite el enunciado de las líneas 938 a 942
-
 **Ejemplo**. Recordando el ejemplo del dado y las monedas en el que supusimos 
 que tiro un dado y si cae con un número par, lanzo en seguida una moneda _justa_
 (la probabilidad de observar águila con ella es la misma que la de observar sol).
@@ -1446,7 +1440,9 @@ X1/X2|  a  |  s  |.
 **a**|0.757|0.243|1
 **s**|0.567|0.433|1
 </div>
+
 y la distribución condicional $p(X_2|X_1,Z)=p(X_2|Z)$ es,
+
 <div class="mi-tabla">
 X1/X2| Z | a  |  s  |.
 -----|---|-----|-----|---
@@ -1455,33 +1451,20 @@ X1/X2| Z | a  |  s  |.
 **a**|impar|0.9|0.1|1
 **s**|impar|0.9|0.1|1
 </div>
+
 En este punto es claro que $X \perp Y \vert Z$ no implica $X \perp Y$, pues 
 como vimos en el ejemplo de los dados y las monedas $X_1 \perp X_2 \vert Z$ pero 
 $X_1 \not \perp X_2$. Más aún, $X \perp Y$ tampoco implica $X \perp Y \vert Z$.
+
 <div class="caja">
 La independencia condicional tiene importantes consecuencias, por ejemplo, si $X$ 
 es independiente de $Y$ dado $Z$ entonces, 
 $$p(x,y,z) = p_Z(z)p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 </div>
+
 Esta expresión de la densidad conjunta es similar a la que obtendríamos usando 
 la regla de la cadena; sin embargo, el número de parámetros necesarios bajo esta 
 representación es menor lo que facilita la estimación.
-#### Independencia condicional
-La independencia de eventos o variables aleatorias es poco común en la práctica, 
-más frecuente es el caso en que dos eventos son independientes dado un tercer 
-evento. 
-### --- Esto repite el enunciado de las líneas 1090 a 1100
-**Ejemplo.** En una competencia de velocidad, cada atleta 
-se somete a dos pruebas de dopaje que buscan detectar si el deportista ingirió 
-una substania prohibida. La prueba A consiste en un examen de sangre y la prueba 
-B en un exámen de orina, cada prueba se realiza en un laboratorio distinto y no 
-hay intercambio de información entre los laboratorios. Es razonable pensar 
-que los resultados de los dos exámenes no son independientes. Ahora, supongamos 
-que sabemos que el atleta consumió la substancia prohibida, en este caso 
-podemos argumentar que conocer el resultado de la prueba A no cambia la 
-probabilidad de que el atleta salga positivo en la prueba B. Decimos que 
-el resultado de la prueba B es condicionalmente independiente del resultado
-de la prueba A dado que el atleta consumió la substancia.
 
 <div class="caja">
 Sean $A$, $B$ y $C$, tres eventos decimos que $A$ es independiente de $B$ 
@@ -1493,8 +1476,6 @@ $$ P(A,B\vert C) = P(A\vert C)P(B\vert C)$$
 Similar al caso de independencia, $A$ y $B$ son condicionalmente independientes 
 dado $C$ sí y solo sí $P(A \vert B,C) = P(A \vert C)$, esto es, una vez que
 conocemos el valor de $C$, $B$ no proporciona información adicional sobre $A$. 
-
-### --- Repite el enunciado en las líneas 1113 a 1119
 
 **Ejemplo.**  Retomemos el ejercicio de los nopales. En la solución de este 
 ejercicio utilizamos que $P(A_2|AA_1) = 0.4$ y que $P(A_2|A^cA_1) = 0.2$, al
@@ -1518,8 +1499,6 @@ $$p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 
 Y tenemos que $X$ es independiente de $Y$ condicional a $Z$ si y sólo si, 
 $p(x,y,z) \propto g(x,z)h(y,z)$.
-
-### --- Esto repite el enunciado en las líneas 1135 a 1190
 
 **Ejemplo**. Recordando el ejemplo del dado y las monedas en el que supusimos 
 que tiro un dado y si cae con un número par, lanzo en seguida una moneda _justa_
@@ -1561,12 +1540,14 @@ X1/X2|  a  |  s  |.
 **s**|0.9|0.1|1
 En este punto es claro que $X \perp Y \vert Z$ no implica $X \perp Y$, pues 
 como vimos en el ejemplo de las monedas $X_1 \perp X_2 \vert Z$ pero $X_1 \not \perp X_2$. Más aún, $X \perp Y$ tampoco implica $X \perp Y \vert Z$.
+
 <div class="caja">
 La independencia condicional tiene importantes consecuencias, por ejemplo, si $X$ es independiente de $Y$ dado $Z$ entonces, 
 $$p(x,y,z) = p_Z(z)p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).$$
 </div>
-<br/>
+
 Esta expresión de la densidad conjunta es similar a la que obtendríamos usando la regla de la cadena; sin embargo, el número de parámetros necesarios bajo esta representación es menor lo que facilita la estimación.
+
 **Ejemplo (discusión).** Consideremos que nos interesa entender la relación 
 entre 3 variables categóricas cada una con 4 niveles. Para describir la conjunta 
 $p(x,y,z)$ necesitamos $63=4 \cdot 4 \cdot 4 -1$ parámetros (menos 1 pues las 
