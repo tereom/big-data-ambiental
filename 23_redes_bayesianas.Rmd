@@ -16,7 +16,7 @@ comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits=3)
 
 #if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install("BiocManager")
+#   install.packages("BiocManager")
 #
 #if (!requireNamespace("Rgraphviz", quietly = TRUE))
 #    BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)

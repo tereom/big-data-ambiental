@@ -1,6 +1,8 @@
 ---
 title: "Bayes en un juicio"
-output: html_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
