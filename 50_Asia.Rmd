@@ -17,14 +17,14 @@ pander(head(asia))
 
 El Conjunto de datos _Asia_ contiene las siguientes variables:
 
-D (disnea), un factor con dos niveles  _yes_ and _no_.
-T (tuberculosis), un factor con dos niveles  _yes_ and _no_.
-L (cancer pulmonar), un factor con dos niveles  _yes_ and _no_.
-B (bronquitis), un factor con dos niveles  _yes_ and _no_.
-A (visita a Asia), un factor con dos niveles  _yes_ and _no_.
+D (disnea), un factor con dos niveles  _yes_ and _no_.  
+T (tuberculosis), un factor con dos niveles  _yes_ and _no_.  
+L (cancer pulmonar), un factor con dos niveles  _yes_ and _no_.  
+B (bronquitis), un factor con dos niveles  _yes_ and _no_.  
+A (visita a Asia), un factor con dos niveles  _yes_ and _no_.  
 S (fumador), un factor con dos niveles  _yes_ and _no_.
-X (rayos-X del Catastro toraxico), un factor con dos niveles  _yes_ and _no_.
-E (tuberculosis contra cancer de pulmón/bronquitis), un factor con dos niveles  _yes_ and _no_.
+X (rayos-X del Catastro toraxico), un factor con dos niveles  _yes_ and _no_.  
+E (tuberculosis o cancer de pulmón), un factor con dos niveles  _yes_ and _no_.  
 
 Para referencia posterior, la "verdadera" estructura de la red se muestra en seguida
 
@@ -92,29 +92,34 @@ Expert2
 ## Aprendizaje de la estructura de la red
 Además de poder crear la estructura de un red manualmente, también es posible crearla a partir de los datos mediante algoritmos de aprendizaje de la estructura.
 
-Hay tres tipos principalees de algoritmos de aprendizaje de la estructura de una red: basados en restricciones, basados en puntajes e híbridos (alguna mezcla de los dos anteirores). E usuario puede especifica un criterio de valoración AIC (Akaike Information Criterion), BIC (Bayesian Information Criterion) o BDE (Bayesian Dirichlet) para la determinación de la mejor estructura de la red. Los algoritmos usan diferentes técnicas para iterar en torno a las varias estructuras posibles de una red y entonces elige la mejor, dependiendo de la calificación que produzca. El método de calificación usado por defecto con los algorítmmos basados en puntajes o los bpibridos es el BIC.
+Hay tres tipos principalees de algoritmos de aprendizaje de la estructura de una red: basados en restricciones, basados en puntajes e híbridos (alguna mezcla de los dos anteriores). E usuario puede especifica un criterio de valoración AIC (Akaike Information Criterion), BIC (Bayesian Information Criterion) o BDE (Bayesian Dirichlet) para la determinación de la mejor estructura de la red. Los algoritmos usan diferentes técnicas para iterar en torno a las varias estructuras posibles de una red y entonces elige la mejor, dependiendo de la calificación que produzca. El método de calificación usado por defecto con los algorítmmos basados en puntajes o los bpibridos es el BIC.
 
 Basado en restricciones
 No se utiliza ninguna estructura de modelo de arranque/inicio con estos algoritmos. Los algoritmos construyen la estructura buscando dependencias condicionales entre las variables. __bnlearn__ incluye los siguientes algoritmos basados en restricciones:
 
-Grow-Shrink (GS)
-Asociación Incremental Markov Blanket (IAMB)
-Asociación Incremental Rápida (Fast-IAMB)
-Asociación Incremental Interleaved (Inter-IAMB)
-Max-Min Parents & Children (MMPC)
-Hiton-PC semi-intercalada (SI-HITON-PC)
-Basado en la puntuación:
+Grow-Shrink (GS)  
+Asociación Incremental Markov Blanket (IAMB)  
+Asociación Incremental Rápida (Fast-IAMB)  
+Asociación Incremental Interleaved (Inter-IAMB)  
+Max-Min Parents & Children (MMPC)  
+Hiton-PC semi-intercalada (SI-HITON-PC)  
 
-El usuario aprovecha su conocimiento del sistema para crear una red, codifica su confianza en la red e ingresa los datos. El algoritmo luego estima la estructura del modelo más probable. bnlearn incluye los siguientes algoritmos basados en puntuación:
+### Basado en la puntuación:
 
-Escalada de Colina (HC)
-Tabu Search (Tabu)
-Híbrido:
+El usuario aprovecha su conocimiento del sistema para crear una red, codifica su confianza en la red e ingresa los datos. El algoritmo luego estima la estructura del modelo más probable. **bnlearn** incluye los siguientes algoritmos basados en 
+puntuación:  
+
+Escalada simple (HC)  
+Tabu Search (Tabu)  
+
+Híbrido:  
 Mezcla de métodos basados en restricciones y basados en puntajes. __bnlearn__ incluye los siguientes algoritmos híbridos:
 
-Max-Min Hill Climbing (MMHC)
-Maximización restringida general de 2 fases (RSMAX2)
-Primero, un ejemplo del aprendizaje basado en contraint que utiliza el algoritmo de la Manta de Markov de la Asociación Incremental (IAMB):
+Max-Min Hill Climbing (MMHC)  
+Maximización restringida general de 2 fases (RSMAX2)  
+
+
+Ahora veamos un ejemplo del aprendizaje basado en restricciones que utiliza el algoritmo de Manta de Markov con Asociación Incremental (IAMB):
 
 
 ```{r}
@@ -123,7 +128,7 @@ iambex
 plot(iambex)
 ```
 
-Ahora, un ejemplo de aprendizaje basado en la puntuación usando el algoritmo de escalada simple (HC):
+Ahora, un ejemplo de aprendizaje basado en puntuación usando el algoritmo de escalada simple (HC):
 
 ```{r}
 hcex <- hc(asia)
