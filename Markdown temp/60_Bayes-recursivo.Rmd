@@ -1,0 +1,137 @@
+---
+title: "Bayes recursivo"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(mvtnorm)
+library(latex2exp)
+```
+# Preámbulo
+
+Iniciamos con una variable aleatoria que puede tomar valores entre 1 y 6. Imaginamos que el valor más probable de esta población es alrededor de 4, así que una proposición razonable es que la podemos representr como una normal con media 3.5 y varianza 0.5.
+
+```{r}
+plot(seq(1, 6, 0.01), dnorm(seq(1,6,0.01), 3.5,0.5), xlab = "A", ylab="P(A)", main=TeX("Distribución de probabilidad de $\\textit{A}$ a priori"), type="l")
+```
+
+Ahora 
+```{r}
+mean <- c(4,4)
+sigma <- matrix(c(1,0,0,1), nrow = 2, ncol = 2)
+dist<-matrix(rep(1, 36), nrow = 6, ncol = 6)
+for(j in c(1:6))
+{
+  for(k in c(1:6) )
+  { 
+    dist[j,k]<-dmvnorm(c(j,k), mean=mean, sigma=sigma)
+  }
+}
+
+par(mfrow=c(1,2))
+xlab <- seq(1,6,1)
+ylab <- seq(1,6,1)
+persp(x=xlab, y=ylab, z=dist,
+      col="lightblue",
+      theta=130,
+      phi=20,
+      r=30,
+      d=0.1,
+      expand=1,
+      shade=0.5, 
+      ticktype="detailed",scale=TRUE, xlab="A", ylab="B", zlab="P(A,B)",
+      nticks=5, zlim=c(0,0.2), main="Probability Distribution of P(A,B)"
+)
+
+dist<-dist[3,]
+plot(dist, xlim=c(1,6), type="l", ylab="P(B|A=3)", xlab="B", main="Condition Probability Distribution P(B|A=3)")
+par(mfrow=c(1,1))
+```
+
+
+```{r}
+library(animation)
+
+wall<-matrix(rep(1, 1681), nrow = 41, ncol = 41)
+
+#LETS SAY THAT TRUE LOCATION OF WHIPLASH IS AT COORDINATE 20, 20 on the wall
+trueCol<-20
+trueRow<-20
+
+# 100 Readings cerated by the Infrared sensor. Here we are sampling 100 points from a bivariate normal distribution with mean centered on the true location of Whiplash  and due to damage to the sensor there is now a variance of 10 in the sensor.
+data<-as.data.frame((rmvnorm(100, mean=c(trueRow, trueCol), sigma= matrix(c(10,0,0,10), nrow = 2, ncol = 2))))
+
+#Lets plot this 
+ggplot(data , aes(x=data$V1,y=data$V2), xlab="x coordinate", ylab="y coordinate")+geom_point(shape=7, col="Blue")+geom_point(aes(x=trueRow, y=trueCol), col="RED", size=5)+scale_x_continuous(limits=c(0,40))+scale_y_continuous(limits=c(0,40))+labs(title="WALL", x="X Coordinate", y="Y Coordinate")
+
+#initial distribution representing a uniform prior distribution
+initial_dist<-wall/sum(wall)
+
+#convert data to a matrix
+data<-data.matrix(data, rownames.force=NA)
+
+#create a matrix representing posterior distribution, initially same as prior distribution
+final_dist<-initial_dist
+
+# Failure is constant, so sigma and covariance matrix "damage" remains the same  
+sigma= matrix(c(20,0,0,20), nrow = 2, ncol = 2)
+
+a = saveHTML({
+    #iterate through all the data points
+    for( i in (1:nrow(data)))
+    {
+      # make posterior distribution new prior distribution for first 
+      # iteration this would not do anything
+      initial_dist<-final_dist
+      
+      # define mean of the distribution as the data point
+      mean=c(data[i,1],data[i,2])
+      
+      for(j in c(0:41))
+      {
+        for(k in c(0:41) )
+        {
+          # sample normal distribution with mean and 
+          # sigma values described above
+          pd<-dmvnorm(c(j,k), mean=mean+1, sigma=sigma)
+          # multiply the sampled value with our prior 
+          # distribution and store it in posterior distribution
+          final_dist[j,k]<-initial_dist[j,k]*pd
+        }
+      }
+      
+      #normalize the posterior distribution
+      final_dist=final_dist/sum(final_dist)  
+      
+      #Display the plots
+      #display 2 graphs in same window
+      par(mfrow=c(1,2))
+      sub=paste("Point Number : ",i)
+      
+      # Surface plot for posterior distribution
+      persp(x=seq(0,40,1), y=seq(0,40,1),
+            z=final_dist,
+            col="lightblue",
+            theta=30,
+            phi=20,
+            r=30,
+            d=0.1,
+            expand=1,
+            shade=0.5, 
+            ticktype="detailed",scale=TRUE, xlab="x coordinate",
+            ylab="y coordinate", zlab="Probability", sub=sub,
+            nticks=5, zlim=c(-0.1,1),
+            main="Surface plot of posterior distribution",
+      )
+      
+      #heatmap of posterior distribution
+      image(x=seq(0,40,1), y=seq(0,40,1),z=final_dist, xlab="x Coordinate",
+            ylab="y coordinate",main="Heat map of posterior distribution")
+    par(mfrow=c(1,1))
+  }
+    }, htmlfile = "heatmap.html", navigator = FALSE,
+       ani.width = 900, ani.height = 600, verbose = FALSE)
+```
+

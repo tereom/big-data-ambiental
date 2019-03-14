@@ -1,0 +1,551 @@
+# Clase miércoles 13/marzo/2019 Inecol
+
+Generación de redes bayesianas con la biblioteca _bnlearn_. Diseño con base en juicio experto, aprendizaje automatizzado de topología y de tablas de probabilidad condicional.
+
+También ejemplo de uso de Bayes en un caso legal y finalmente ejemplo de entrenamiento de una red con blearn utilizando el ejemplo bien conocido en la literatura del caso de riesgo de enfermedades pulmonares dada exposición a tabaquismo y tuberculósis asiática.
+
+
+## Aprendizaje automatizado de redes bayesianas
+
+Veremos como se puede generar automáticamente una topología de red, a partir de un conjunto de datos y también como estimmar las tablas de probabilidad de una _GAD_, nuevamente a partir de un conjunt de datos.
+
+
+Los paquetes que usaremos en esta sección son:
+
+* CRAN: tidyverse (dplyr, ggplot2, purrr), bnlearn, 
+BiocManager, igraph, gRain, pander.
+
+* Bioconductor: Rgraphviz, RBGL
+
+```
+install.packages("BiocManager")
+BiocManager::install("Rgraphviz")
+```
+
+Y las referencias son @koller, @ross y @wasserman.
+
+```{r, echo = FALSE, message=FALSE, error=TRUE}
+
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+#
+#if (!requireNamespace("Rgraphviz", quietly = TRUE))
+#    BiocManager::install("Rgraphviz", version = "3.8", ask = FALSE)
+#
+#if (!requireNamespace("RBGL", quietly = TRUE))
+#    BiocManager::install("RBGL", ask = FALSE)
+#}
+
+library(tidyverse)
+library(magrittr)
+library(pander)
+library(bnlearn)
+
+```
+
+
+## Identificación de la estructura
+
+Nuestro siguiente paso es describir la heurística de búsqueda para minimizar
+el score, que en lo que sigue suponemos que es el AIC. 
+
+Hay dos decisiones de diseño para decidir el algoritmo de aprendizaje de 
+estructura:
+
+**Técnicas de busqueda.**  
+* Hill-climbing  
+* Recocido simulado  
+* Algoritmos genéticos
+
+**Operadores de búsqueda** Locales  
+* Agregar arista  
+* Eliminar arista  
+* Cambiar dirección de arista  
+
+Globales (ej. cambiar un nodo de lugar, más costoso)
+
+Aunque hay varios algoritmos, uno utilizado comunmente es el de hill climbing. 
+
+### Hill-climbing, escalada simple o ascenso de colina
+
+
+1. Iniciamos con una gráfica dada:
+* Gráfica vacía  
+* Gráfica aleatoria
+* Conocimiento experto
+
+2. En cada iteración:
+* Consideramos el score para cada operador de búsqueda local 
+(agregar, eliminar o cambiar la dirección de una arista)
+* Aplicamos el cambio que resulta en un mayor incremento en el score. Si 
+tenemos empates elijo una operación al azar.
+
+3. Parar cuando ningún cambio resulte en mejoras del score.
+
+**Ejemplo. Eliminación de aristas** Consideremos datos simulados de una red en 
+forma de diamante: 
+
+```{r}
+set.seed(28)
+n <- 600 # número de observaciones
+a <- (rbinom(n, 1, 0.3)) # nodo raíz
+b <- (rbinom(n, 1, a * 0.1 + (1 - a) * 0.8))
+c <- (rbinom(n, 1, a * 0.2 + (1 - a) * 0.9))
+d <- (rbinom(n, 1, b * c * 0.9 + (1 - b * c) * 0.1))
+dat <- data.frame(a = factor(a), b = factor(b), c = factor(c), d = factor(d))
+pander(head(dat), caption = "Muestra de la tabla de datos recien creada")
+```
+
+Supongamos que comenzamos el proceso con una gráfica vacía:
+
+```{r}
+aic <- function(fit, data){
+  -2 * AIC(fit, data = data) / nrow(data)
+}
+grafica_0 <- empty.graph(c('a','b','c','d'))
+fit_0 <- bn.fit(grafica_0, dat)
+logLik(fit_0, data = dat)
+
+AIC(fit_0, data = dat) # cuatro parámetros
+aic(fit_0, data = dat)
+```
+
+Consideramos agregar $a\to d$, la nueva arista que mejora el AIC, y escogemos 
+este cambio. Notemos que esta arista no existe en el modelo que genera los datos,
+
+```{r, fig.height=3}
+grafica_1 <- grafica_0
+arcs(grafica_1) <- matrix(c('a', 'd'), ncol = 2, byrow = T)
+fit_1 <- bn.fit(grafica_1, dat)
+logLik(fit_1, data = dat)
+aic(fit_1, data = dat) 
+
+graphviz.plot(grafica_1)
+```
+
+Ahora agregamos $a\to b$, que también mejora el AIC:
+
+```{r, fig.height=2.5, fig.width=2.5}
+grafica_2 <- grafica_0
+arcs(grafica_2) <- matrix(c('a','d','a','b'), ncol = 2, byrow = T)
+fit_2 <- bn.fit(grafica_2, dat)
+logLik(fit_2, data = dat)
+aic(fit_2, data = dat) 
+
+graphviz.plot(grafica_2)
+
+```
+
+Igualmente, agregar $a\to c$ merjoar el AIC:
+
+```{r, fig.height=4}
+grafica_3 <- grafica_0
+arcs(grafica_3) <- matrix(c('a','d','a','b','a','c'), ncol = 2, byrow = T)
+fit_3 <- bn.fit(grafica_3, dat)
+logLik(fit_3, data = dat )
+aic(fit_3, data = dat) 
+
+graphviz.plot(grafica_3)
+```
+
+
+Agregamos $b\to d$ y $c\to d$:
+
+```{r, fig.height=4}
+grafica_4 <- grafica_0
+arcs(grafica_4) <- matrix(c('a','d','a','b','a','c','b','d'), ncol = 2, 
+  byrow = T)
+fit_4 <- bn.fit(grafica_4, dat)
+logLik(fit_4, data = dat )
+aic(fit_4, data = dat) 
+
+grafica_4 <- grafica_0
+arcs(grafica_4) <- matrix(c('a','d','a','b','a','c','b','d','c','d'), ncol = 2, 
+  byrow = T)
+fit_4 <- bn.fit(grafica_4, dat)
+logLik(fit_4, data = dat )
+aic(fit_4, data = dat) 
+graphviz.plot(grafica_4)
+```
+
+Ahora nótese que podemos eliminar $a\to d$, y mejoramos el AIC:
+
+```{r}
+grafica_5 <- grafica_0
+arcs(grafica_5) <- matrix(c('a','b','a','c','b','d','c','d'), ncol = 2, 
+  byrow = T)
+fit_5 <- bn.fit(grafica_5, dat)
+logLik(fit_5, data = dat )
+aic(fit_5, data = dat) 
+graphviz.plot(grafica_5)
+```
+
+Este última gráfica es el modelo original. La eliminación de arcos
+nos permitió recuperar el modelo original a pesar de nuestra decisión inicial
+temporalmente incorrecta de agregar $a\to d$.
+
+El algoritmo de _ascenso de colina_ como está implementado en _bn.learn_ resulta en:
+
+```{r, fig.height=4}
+graf_hc <- hc(dat, score='aic')
+graphviz.plot(graf_hc)
+```
+
+**Ejemplo: Cambios de dirección**
+
+Consideramos un ejemplo simple con un colisionador:
+
+```{r}
+set.seed(28)
+n <- 600
+b <- (rbinom(n, 1, 0.4))
+c <- (rbinom(n, 1, 0.7))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+dat <- data.frame(factor(b),factor(c),factor(d))
+names(dat) <- c('b','c','d')
+```
+
+Supongamos que comenzamos agregando la arista $d\to c$ (sentido incorrecto).
+
+```{r, fig.height=4}
+grafica_0 <- empty.graph(c('b','c','d'))
+arcs(grafica_0) <- matrix(c('d','c'), ncol=2, byrow=T)
+graphviz.plot(grafica_0)
+```
+
+En el primer paso, agregamos $b \to d$, que muestra una mejora grande:
+
+```{r, fig.height=4}
+graf_x <- hc(dat, start= grafica_0, score='aic', max.iter=1)
+graphviz.plot(graf_x)
+```
+
+Pero en el siguiente paso nos damos cuenta que podemos mejorar
+considerablemente si construimos el modelo local de $d$ a partir
+no sólo de $b$ sino también de $c$, y cambiamos dirección:
+
+```{r}
+graf_x <- hc(dat, start= grafica_0, score='aic', max.iter=2)
+graphviz.plot(graf_x)
+```
+
+Podemos examinar cada paso del algoritmo:
+
+```{r}
+hc(dat, start = grafica_0, score='aic', debug=T)
+```
+
+
+**Ejemplo simulado.**
+
+Comenzamos con una muestra relativamente chica, y utilizamos el BIC:
+
+```{r}
+set.seed(280572)
+n <- 300
+a <- (rbinom(n, 1, 0.2))
+b <- (rbinom(n, 1, a*0.1+(1-a)*0.8))
+c <- (rbinom(n, 1, a*0.2+(1-a)*0.9))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+e <- rbinom(n, 1, 0.4)
+f <- rbinom(n, 1, e*0.3+(1-e)*0.6)
+g <- rbinom(n, 1, f*0.2+(1-f)*0.8)
+dat <- data.frame(factor(a),factor(b),factor(c),factor(d), factor(e), factor(f),
+  factor(g))
+names(dat) <- c('a','b','c','d','e','f','g')
+```
+
+
+```{r}
+grafica.1 <- hc(dat, score='bic')
+graphviz.plot(grafica.1)
+```
+
+```{r}
+set.seed(280572)
+n <- 300
+a <- (rbinom(n, 1, 0.3))
+b <- (rbinom(n, 1, a*0.1+(1-a)*0.8))
+c <- (rbinom(n, 1, a*0.2+(1-a)*0.9))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+e <- rbinom(n, 1, 0.4)
+f <- rbinom(n, 1, e*0.3+(1-e)*0.6)
+g <- rbinom(n, 1, f*0.2+(1-f)*0.8)
+dat <- data.frame(factor(a),factor(b),factor(c),factor(d), factor(e), factor(f),
+  factor(g))
+names(dat) <- c('a','b','c','d','e','f','g')
+```
+
+
+```{r}
+grafica.1 <- hc(dat, score='aic')
+graphviz.plot(grafica.1)
+```
+
+En este ejemplo, con el AIC obtenemos algunas aristas espurias, que en todo
+caso muestran relaciones aparentes débiles en los datos de entrenamiento.
+Nótese que AIC captura las relaciones importantes, y erra en cautela en 
+cuanto a qué independencias están presentes en los datos.
+
+
+### Incorporando información acerca de la estructura
+
+En algunos casos, tenemos información adicional de las posibles
+estructuras gráficas que son aceptables o deseables en los modelos
+que buscamos ajustar. 
+
+Esta información es muy valiosa cuando tenemos pocos datos o muchas
+variables (incluso puede ser crucial para obtener un modelo de buena calidad),
+y puede incorporarse en prohibiciones acerca de qué estructuras puede
+explorar el algoritmo.
+
+Consideremos nuestro ejemplo anterior con considerablemente menos datos:
+
+```{r}
+set.seed(28)
+n <- 100
+a <- (rbinom(n, 1, 0.2))
+b <- (rbinom(n, 1, a*0.1+(1-a)*0.8))
+c <- (rbinom(n, 1, a*0.2+(1-a)*0.9))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+e <- rbinom(n, 1, 0.4)
+f <- rbinom(n, 1, e*0.3+(1-e)*0.6)
+g <- rbinom(n, 1, f*0.2+(1-f)*0.8)
+dat <- data.frame(factor(a),factor(b),factor(c),factor(d), factor(e), factor(f),
+  factor(g))
+names(dat) <- c('a','b','c','d','e','f','g')
+```
+
+```{r}
+grafica.1 <- hc(dat, score='bic')
+graphviz.plot(grafica.1)
+```
+
+Nótese que en este ejemplo BIC falla en identificar una dependencia, y afirma
+que hay una independencia condicional entre a y d dado c. AIC sin embargo captura
+la dependencia con un modelo demasiado complejo (tres flechas espurias):
+
+```{r}
+grafica.1 <- hc(dat, score='aic')
+graphviz.plot(grafica.1)
+```
+
+Sin embargo, si sabemos, por ejemplo, que no debe haber una flecha de c a f, y tiene
+que haber una de a a c, podemos mejorar nuestros modelos:
+
+```{r}
+b.list <- data.frame(from=c('c','f'), to=c('f','c'))
+w.list <- data.frame(from=c('a'), to=c('c'))
+grafica.bic <- hc(dat, score='bic', blacklist=b.list, whitelist=w.list)
+graphviz.plot(grafica.bic)
+```
+
+
+```{r}
+grafica.aic <- hc(dat, score='aic', blacklist=b.list, whitelist=w.list)
+graphviz.plot(grafica.aic)
+```
+
+En este ejemplo estamos seguros de las aristas que forzamos. Muchas
+veces este no es el caso, y debemos tener cuidado:
+
+<div class="caja">
+* Forzar la inclusión de una arista cuando esto no es necesario puede
+resultar en modelos demasiado complicados que incluyen estructuras espurias.
+
+* Exclusión de muchas aristas puede provocar también modelos que ajustan mal
+y no explican los datos.
+</div>
+
+
+
+```{r}
+set.seed(28)
+n <- 600
+b <- (rbinom(n, 1, 0.4))
+c <- (rbinom(n, 1, 0.7))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+dat.x <- data.frame(factor(b),factor(c),factor(d))
+names(dat.x) <- c('b','c','d')
+```
+
+
+Supongamos que comenzamos agregando la arista $d\to b$ (sentido incorrecto).
+
+
+```{r}
+graphviz.plot(hc(dat.x, score='bic', whitelist=data.frame(from=c('d'), to=c('b'))))
+```
+
+Y no aprendimos nada, pues cualquier conjunta se factoriza de esta manera.
+
+### Sentido de las aristas
+
+Los métodos de score a lo más que pueden aspirar es a capturar la 
+clase de equivalencia Markoviana de la conjunta que nos interesa (es decir,
+gráficas que tienen las mismas independencias, y que cubren a exactamente las mismas conjuntas que se factorizan sobre ellas). Esto implica
+que hay cierta arbitrariedad en la selección de algunas flechas.
+
+En la siguiente gráfica, por ejemplo, ¿qué pasa si cambiamos  el sentido de la flecha
+entre e y f?
+
+```{r}
+set.seed(28)
+n <- 500
+a <- (rbinom(n, 1, 0.2))
+b <- (rbinom(n, 1, a*0.1+(1-a)*0.8))
+c <- (rbinom(n, 1, a*0.2+(1-a)*0.9))
+d <- (rbinom(n, 1, b*c*0.9+ (1-b*c)*0.1 ))
+e <- rbinom(n, 1, 0.4)
+f <- rbinom(n, 1, e*0.3+(1-e)*0.6)
+g <- rbinom(n, 1, f*0.2+(1-f)*0.8)
+dat <- data.frame(factor(a),factor(b),factor(c),factor(d), factor(e), factor(f),
+  factor(g))
+names(dat) <- c('a','b','c','d','e','f','g')
+grafica.bic <- hc(dat, score='bic')
+
+```
+
+
+```{r}
+graphviz.plot(grafica.bic)
+arcos <- grafica.bic$arcs
+arcos
+arcos[3,] <- c('g','f')
+arcos[6,] <- c('f','e')
+grafica.2 <- grafica.bic
+arcs(grafica.2) <- arcos
+graphviz.plot(grafica.2)
+graphviz.plot(grafica.bic)
+```
+
+Vemos que no cambia la log-verosimilitud, ni ninguno de nuestros scores. 
+
+```{r}
+logLik(grafica.bic, data=dat)
+logLik(grafica.2, data=dat)
+BIC(grafica.bic, data=dat)
+BIC(grafica.2, data=dat)
+AIC(grafica.bic, data=dat)
+AIC(grafica.2, data=dat)
+```
+
+Esto implica que la dirección de estas flechas no puede determinarse 
+solamente usando los datos. Podemos seleccionar la dirección de estas
+flechas por otras consideraciones, como explicaciones causales, temporales,
+o de interpretación. Los modelos son equivalentes, pero tienen
+una parametrización destinta.
+
+![](./imagenes/manicule2.jpg)  Mostrar que cambiar el sentido de una 
+flecha que colisiona en $d$ (que es un colisionador no protegido) **no** da
+scores equivalentes.
+
+
+### Variaciones de Hill-climbing
+
+<div class="clicker">
+¿Cuál(es) de las siguientes opciones puede ser un problema para aprender la 
+estructura de la red?  
+a. Máximos locales.  
+b. Pasos discretos en los scores cuando se perturba la estructura.  
+c. Eliminar un arco no se puede expresar como una operación atómica en la 
+estructura.  
+d. Perturbaciones chicas en la estructura de la gráfica producen cambios muy 
+chicos o nulos en el score (plateaux).  
+</div>
+
+¿Por que consideramos el operador de cambiar dirección como candidato en cada
+iteración si es el resultado de elminar un arco y añadir un arco? 
+Eliminar un 
+arco en hill-climbing tiende a disminuir el score de tal manera que el paso 
+inicial de eliminar el arco no se tomará.
+
+Revertir la dirección 
+es una manera de evitar máximos locales.
+
+Algunas modificaciones de hill-climbing consisten en incluir estrategias:
+
+* **Inicios aleatorios**: Si estamos en una llanura, tomamos un número de pasos
+aleatorios para intentar encontrar una nueva pendiente y entonces comenzar a escalar nuevamente.  
+
+* **Tabu**: Guardar una lista de los k pasos más recientes y la búsqueda no 
+puede revertir estos pasos.
+
+
+
+# Caso jurídico (usando _momios_ - odds)
+
+Hace unos años se publicó la noticia de que un juez británico decidió que el teorema de Bayes, no debía usarse en casos de homicidio, o por lo menos, no como se venía haciendo. El detonante de esta decisión judicial es un caso real de asesinato que ocurrió en el Reino Unido. En este caso, el sospechoso recibió la condena con base en el hecho de que se encontraron unos tenis marca _Nike_ en su domicilio, que coincidían con huellas encontradas en la escena del crimen. En el juicio, el testigo experto razonó bayesianamente. Para hacerlo requirió asignar una probabilidad a la posibilidad de que una persona cualquiera llevase dicho modelo de tenis. Como el fabricante no tenía datos precisos para estimar tal cosa, el experto empleó una "estimación razonable" de esta información (práctica habitual bajo estas circunstancias). La noticia resalta que al juez citado no le gustó la idea de condenar a alguien con base a una estimación de este tipo.
+
+Veamos como se suele emplear para determinar la probabilidad de que un acusado sea culpable.
+
+El _momio_ (razón de probabilidades), de que el acusado sea culpable respecto a ser inocente, antes de observar ninguna prueba o evidencia es:
+$$
+O(Culpable) = \frac{P(Culpable)}{P(Inocente)}
+$$
+Si conocemos la probabilidad de que se produzca la evidencia _E_ cuando elsospechoso es culpable.
+
+$$
+P(E|Culpable)
+$$
+Así como la probabilidad de que se produzca la evidencia __E_ cuando el sospechoso no es culpable.
+
+$$
+P(E|Inocente) 
+$$
+
+Entonces podemos calcular el _momio_ de que el acusado sea culpable cuando hemos observado la evidencia E, respecto de la probabilidad de que sea inocente.
+
+$$
+O(Culpable|E)= \frac{P(E|Culpable)}{P(E|No culpable)}\cdot O(Culpable)
+$$
+
+## Más allá de una duda razonable: _in dubio pro reo_
+¿Le ponemos números? Veamos un caso en el que se localizan rastros de sangre de un presunto homicida en la escena de un crimen. El análisis forense encuentra que este tipo de sangre se puede encontrar en $\frac{1}{15,000}$ personas en la población de referencia. Con base en este dato podemos calcular el _momio_ de que se presente la evidencia, considerando que ya sabemos que el culpable tiene ese tipo de sangre, por lo tanto lo conocemos con probabilidad 1:
+
+```{r}
+p_evidencia_culpable  <- 1
+p_evidencia_inocente  <- 1 / 15000
+
+o_evidencia_culpable <- p_evidencia_culpable / p_evidencia_inocente
+o_evidencia_culpable
+```
+Para aplicar Bayes sólo falta conocer las opciones de culpabilidad _a priori_ que tendría el sospechoso, independientemente de las pruebas de sangre.  Un planteamiento razonable sería pensar que estamos en una región de 2,000,000 de habitantes y aceptamos que el culpable debe vivir necesariamente aquí. Ahora, aplicamos la versión de _momios_ de la regla de Bayes.
+
+```{r}
+p_culpable <- 1 /(2000000)
+p_inocente <- (2000000 - 1)/2000000
+
+o_culpable_a_priori <- p_culpable/p_inocente
+
+o_culpable_evidencia <- o_evidencia_culpable * o_culpable_a_priori
+o_culpable_evidencia
+
+```
+
+Por lo tanto, el presunto asesino tiene un _momio_ de `r o_culpable_evidencia` en su contra.
+
+Como un _momio_ es una razón de probabilidades, entonces
+$$
+O=\frac{P(A)}{P(no A)}=\frac{P(A)}{1-P(A)} \implies P(A)=\frac{O}{1+O}
+$$ 
+lo que permite calcular la probabilidad de ser culpable a la luz de la evidencia, en este caso: `r format(o_culpable_evidencia/(1+o_culpable_evidencia) * 100, digits=4)`%. ¿Qué cabría decidir en el juicio?
+
+Qué pasa con la decisión si el crimen ocurre en una población aislada de sólo 20,000 habitantes?
+
+```{r}
+o_culpable_a_priori <- 1 /(20000 - 1) 
+o_evidencia_culpable <- o_evidencia_culpable * o_culpable_a_priori
+o_evidencia_culpable
+```
+En este otro escenario el presunto asesino tiene un _momio_ de `r o_culpable_evidencia` en su contra y por lo tanto, la nueva probabilidad de ser culpable a la luz de la evidencia es: `r format(o_culpable_evidencia/(1+o_culpable_evidencia) * 100, digits=4)`%. ¿Qué cabría decidir ahora en el juicio?
+
+
+[Lectura complementaria](https://www.r-bloggers.com/bayesian-blood/)
+
+[La noticia en el _Guardian_](https://www.theguardian.com/law/2011/oct/02/formula-justice-bayes-theorem-miscarriage)
+
+
+
+
+

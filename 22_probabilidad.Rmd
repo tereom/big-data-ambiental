@@ -190,7 +190,7 @@ y suele ser necesario conocer técnicas de conteo para resolverlos.
 
 ## Interpretación frecuentista de probabilidad
 
-La interpretación anterior de la probabilidad es fundamental, pero deja sin 
+Esta interpretación de la probabilidad es fundamental, pero deja sin responder 
 responder una pregunta crítica: 
 
 - ¿Cómo sabemos que un modelo probabilístico de este tipo describe 
@@ -585,13 +585,12 @@ de un dardo?
 
 ## Modelos de probabilidad (definición general)
 
-En muchos casos, el modelo equiprobable (discreto o continuo) no es tan fácil de
-adaptar a problemas particulares de modelación probabilística. Por ejemplo:
+En muchos casos, el modelo equiprobable (discreto o continuo) no es tan
+fácil adaptar a problemas particulares de modelación probabilística. Por
 
 - En el problema del dardo, como la mayor parte de la gente apunta hacia
 el centro, regiones centrales deberían tener probabilidad mayor que
 regiones cerca del borde.
-
 - Si sacamos una pelota al azar de una bolsa revuelta, y las pelotas son
 de distintos tamaños, entonces las probabilidades de extraer cada pelota
 son diferentes.
@@ -711,7 +710,7 @@ knitr::include_graphics("./imagenes/tablero_zonas.png")
 La definición de probabilidad como área relativa no se puede usar en estos 
 casos, sin embargo, el enfoque de simulación se continúa manteniendo.
 
-Pensemos en el caso de un dardo univariado. En este caso, la probabilidad
+Comencemos con el caso de un dardo univariado. En este caso, la probabilidad
 se calcula como longitud relativa. La probabilidad de que el dardo
 caiga en el intervalo $[a,b]\subset [0,1]$ es
 
@@ -1049,7 +1048,7 @@ estándar.
 
 ## Distribuciones multivariadas
 
-Hasta ahora hemos visto ejemplos de distribuciones univariadas, 
+Hasta ahora hemos estudiado distribuciones univariadas y como simular de ellas, 
 sin embargo, es común que un modelo probabilístico involucre más de una variable 
 aleatoria por lo que estudiaremos el concepto de distribuciones de probabilidad 
 multivariadas.
