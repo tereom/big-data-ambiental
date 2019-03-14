@@ -1,0 +1,320 @@
+---
+title: "Asia"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ejemplo Asia
+
+```{r message=FALSE}
+library(bnlearn)
+library(pander)
+pander(head(asia))
+```
+
+El Conjunto de datos _Asia_ contiene las siguientes variables:
+
+D (disnea), un factor con dos niveles  _yes_ and _no_.  
+T (tuberculosis), un factor con dos niveles  _yes_ and _no_.  
+L (cancer pulmonar), un factor con dos niveles  _yes_ and _no_.  
+B (bronquitis), un factor con dos niveles  _yes_ and _no_.  
+A (visita a Asia), un factor con dos niveles  _yes_ and _no_.  
+S (fumador), un factor con dos niveles  _yes_ and _no_.
+X (rayos-X del Catastro toraxico), un factor con dos niveles  _yes_ and _no_.  
+E (tuberculosis o cancer de pulmón), un factor con dos niveles  _yes_ and _no_.  
+
+Para referencia posterior, la "verdadera" estructura de la red se muestra en seguida
+
+[Red Asia](https://www.bayesserver.com/examples/networks/asia)
+And for later reference, the ‘true’ network structure is shown below: 
+
+![Asia Data Set Structure](imagenes/asia.png)
+
+
+## Preparación de la red
+
+Antes de trabajar con el conjunnto de datos _Asia_ mostraremos un ejemplo de como crear una estructura de red sencilla desde cero. Podríamos empezar por crear bien una red vacía (sin arcos) o una red aleatoria (arcos que unen aleatoriamente los nodos), pero no haremos nada de eso (en el sitio de __blearn__ se puede encontrar como hacerlo). Lo que haremos es crear una estructura de red particular, según nuestro antojo. Esto puede ser el caso cuando se tiene suficiente confianza en conocer la "verdader" estructura de la red.
+
+```{r}
+#create an empty DAG with nodes
+dag= empty.graph(LETTERS[c(1,19,20,12,2,5,24,4)])
+
+#assign the DAG structure, from to 
+asia.structure = matrix(c("A", "S", "S", "T", "T","L", "L","B", "B", "E","E", "X","X","D"), ncol = 2, byrow = TRUE, dimnames = list(NULL, c("from", "to"))) 
+pander(asia.structure)
+```
+
+
+
+```{r}
+#now asign the structure to the empty graph using arcs, which makes it a bnlearn object
+arcs(dag) <- asia.structure 
+dag
+
+plot(dag)
+```
+
+Si optamos por usar arcos no dirigidos entonces podemos hacer esto.
+
+```{r}
+dag2 = empty.graph(LETTERS[c(1,19,20,12)])
+asia.structure2 = matrix(c("A", "S", "S", "A", "T","L", "L", "T"),
+                      ncol = 2, byrow = TRUE,
+                       dimnames = list(NULL, c("from", "to")))
+arcs(dag2) = asia.structure2
+plot(dag2)
+```
+
+Cuando ejecutamos estos comandos, automáticamente se realizan una serie de verificaciones para evitar faltas a los requerimientos en la estructuración de la red.
+Las fallas detectadas se reportarán mediante mensajees de error. La principal verificación de faltas es contra la falta de nodos, la presencia de ciclos y circuitos.
+
+Este otro ejemplo muestra una estructura de red derivada de "opinión experta", a la que añadimos estimadores justo en las distribuciones de probabilidad condicional conjunta del nodo. 
+
+
+```{r}
+Expert1 = matrix(c(0.4, 0.6), ncol = 2, dimnames = list(NULL, c("BAJO", "ALTO")))
+dag
+Expert1
+```
+
+
+
+```{r}
+Expert2 = c(0.5, 0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8)
+dim(Expert2) = c(2, 2, 2)
+dimnames(Expert2) = list("C" = c("CIERTO", "FALSO"), "A" =  c("BAJO", "ALTO"), "B" = c("BUENO", "MALO"))
+Expert2
+```
+
+## Aprendizaje de la estructura de la red
+Además de poder crear la estructura de un red manualmente, también es posible crearla a partir de los datos mediante algoritmos de aprendizaje de la estructura.
+
+Hay tres tipos principalees de algoritmos de aprendizaje de la estructura de una red: basados en restricciones, basados en puntajes e híbridos (alguna mezcla de los dos anteriores). E usuario puede especifica un criterio de valoración AIC (Akaike Information Criterion), BIC (Bayesian Information Criterion) o BDE (Bayesian Dirichlet) para la determinación de la mejor estructura de la red. Los algoritmos usan diferentes técnicas para iterar en torno a las varias estructuras posibles de una red y entonces elige la mejor, dependiendo de la calificación que produzca. El método de calificación usado por defecto con los algorítmmos basados en puntajes o los bpibridos es el BIC.
+
+Basado en restricciones
+No se utiliza ninguna estructura de modelo de arranque/inicio con estos algoritmos. Los algoritmos construyen la estructura buscando dependencias condicionales entre las variables. __bnlearn__ incluye los siguientes algoritmos basados en restricciones:
+
+Grow-Shrink (GS)  
+Asociación Incremental Markov Blanket (IAMB)  
+Asociación Incremental Rápida (Fast-IAMB)  
+Asociación Incremental Interleaved (Inter-IAMB)  
+Max-Min Parents & Children (MMPC)  
+Hiton-PC semi-intercalada (SI-HITON-PC)  
+
+### Basado en la puntuación:
+
+El usuario aprovecha su conocimiento del sistema para crear una red, codifica su confianza en la red e ingresa los datos. El algoritmo luego estima la estructura del modelo más probable. **bnlearn** incluye los siguientes algoritmos basados en 
+puntuación:  
+
+Escalada simple (HC)  
+Tabu Search (Tabu)  
+
+Híbrido:  
+Mezcla de métodos basados en restricciones y basados en puntajes. __bnlearn__ incluye los siguientes algoritmos híbridos:
+
+Max-Min Hill Climbing (MMHC)  
+Maximización restringida general de 2 fases (RSMAX2)  
+
+
+Ahora veamos un ejemplo del aprendizaje basado en restricciones que utiliza el algoritmo de Manta de Markov con Asociación Incremental (IAMB):
+
+
+```{r}
+iambex <- iamb(asia) #structure learning
+iambex
+plot(iambex)
+```
+
+Ahora, un ejemplo de aprendizaje basado en puntuación usando el algoritmo de escalada simple (HC):
+
+```{r}
+hcex <- hc(asia)
+hcex
+```
+```{r}
+mmex <- mmhc(asia)
+mmex
+plot(mmex)
+```
+### Redes por puntajes
+
+A continuación se muestran ejemplos de las puntuaciones de AIC y BDE para la mejor red en el algoritmo de escalada simple (HC), aplicando el algorítmmo de aprendizaje basado en la puntuación que se muestra más arriba.
+```{r}
+score(hcex,asia,type="aic") #getting aic value for full network
+score(hcex,asia,type="bde") #getting bde value for full network
+
+```
+
+Los resultados del algoritmo anterior también proporcionan un buen ejemplo de lo que sucede cuando la “mejor” estructura de red, no contiene arcos para todos los nodos. La red del algoritmo basado en puntuaciones es la más cercana a la red “verdadera”, pero el nodo A no está conectado a la red. Podemos investigar por qué este es el caso con el nodo A. Por ejemplo, del modelo verdadero sabemos que el nodo A influye en el nodo T. Calculemos la puntuación de A a T, y luego de T a A.
+
+```{r}
+#setting arcs to get actual scores from individual relationships
+eq.net = set.arc(hcex, "A", "T") 
+
+#setting arcs to get actual scores from individual relationships
+eq.net1 = set.arc(hcex,"T", "A") 
+puntaje_net = score(eq.net, asia, type="aic") #retriving score
+puntaje_net1 = score(eq.net1, asia, type="aic") #retriving score
+plot(eq.net)
+plot(eq.net1)
+```
+Con estos comandos obtenemos el puntaje que está sociado con relaciones particulares:
+
+|Red   | puntaje        |
+|------|----------------|
+|"net" |`r format(puntaje_net, scientific=FALSE, digits=)`|
+|"net1"|`r format(puntaje_net1, scientific=FALSE, digits=)`|
+
+Vemos que cuando establecemos el arco de A a T, o de T a A, obtenemos la misma puntuación de red (-11051.09). Por lo tanto, la relación entre A y T se denomina "puntuación equivalente", ya que cualquier dirección proporciona la misma puntuación de red equivalente. Cambiar la dirección del vínculo entre dos nodos no cambia la puntuación de red.
+
+Por otro lado, si cambiamos la dirección de la flecha entre otros dos nodos que incluyen otras interconexiones en la red, veremos el cambio de la puntuación de la red. Por ejemplo, si cambiamos la relación entre los nodos L y E:
+
+```{r}
+eq.net = set.arc(hcex, "L", "E")
+eq.net1 = set.arc(hcex,"E", "L")
+score(eq.net, asia, type="aic")
+plot(eq.net)
+plot(eq.net1)
+
+puntaje_net = score(eq.net1,asia, type="aic")
+puntaje_net1 = score(eq.net1,asia, type="aic")
+
+```
+El resultado de este cambio es el siguiente:
+
+| Red     |  puntaje       |
+|---------|----------------|
+|"net"    |`r format(puntaje_net, scientific=FALSE, digits=8)` |
+|"net1"   |`r format(puntaje_net1, scientific=FALSE, digits=8)`|
+
+Vemos que la puntuación de la red disminuye cuando invertamos la dirección entre los nodos L y E.
+
+En este punto, dado que los algoritmos no han podido determinar la relación de A a T (u otros nodos), es posible que queramos recurrir a la literatura, la opinión "experta", la teoría de la ecología, etc. para argumentar la mejor relación entre el nodo A y el nodo T o el resto de la estructura.
+
+
+## "Aprendizaje de parámetros" o "estructuración de la red" 
+
+El comando bn.fit genera estimaciones de parámetros para las tablas de probabilidad condicionales en cada nodo. Sin embargo, el comando bn.fit requiere que la estructura de red represente un DAG (gráfico acíclico dirigido), "de lo contrario no se pueden estimar sus parámetros porque la factorización de la distribución de probabilidad global de los datos en los locales (uno para cada variable en el modelo) no se conoce completamente". Por lo tanto, los arcos no dirigidos deben establecerse antes de la estimación de parámetros. Vemos en la estructura anterior estimada que el nodo "A" no está conectado a la estructura de red. Por lo tanto, antes de aplicar bn.fit, debemos establecer un arco direccional para A. debido a la opinión "experta", el conocimiento del sistema, o estudios previos, vamos a establecer un arco entre A y T. El método predeterminado para la estimación de parámetros es el de máxima verosimilitud (MLE).
+
+
+```{r}
+#creating a new DAG with the A to T relationship(based on our previous knowledge that goint to asia effects having tuberculosis)
+hcex1 = set.arc(hcex, from  = "A", to = "T") 
+plot(hcex1)
+```
+
+Ahora podemos ejecutar el comando bn.fit para obtener los estimadores de los parámetros:
+
+```{r}
+# fitting the network with conditoinal probability tables
+fit = bn.fit(hcex1, asia) 
+fit 
+```
+
+Podemos recuperar la probabilidad condicional de un nodo específico mediante el operador usual "$":
+
+```{r}
+fit$L
+```
+
+```{r}
+fit$D
+```
+
+Si lo queremos, podemos también visualizar la tabla de probabilidad condicional mmediante gráficas de barras:
+
+```{r}
+bn.fit.barchart(fit$D)
+```
+
+o, si lo preferimos, como una gráfica de puntos:
+```{r}
+bn.fit.dotplot(fit$D)
+```
+
+In addition to maximum likelihood, parameter estimation can be done performed with Bayesian methods - but currently only with discrete data. Below is an example with the Asia dataset. The same bn.fit command line is used, but the method is specified as ‘bayes’.
+
+```{r}
+fit1 = bn.fit(hcex1, asia, method = "bayes")
+fit1
+```
+
+
+## Validación del modelo
+Ahora que tenemos una estructura de red y tablas de probabilidad condicional en los nodos, el siguiente paso es validar el modelo o, más bien, evaluar el modelo ajustado a los datos. "La validación cruzada es una forma estándar de obtener estimaciones imparciales de la bondad de ajuste de un modelo. Comparando tales medidas para diferentes estrategias de aprendizaje (diferentes combinaciones de algoritmos de aprendizaje, técnicas de adaptación y los parámetros respectivos) podemos elegir la óptima para los datos que tenemos en mano de una manera basada en principios de objetividad".
+
+_bnlearn_ tiene 3 métodos para validación cruzada: `k-fold`(default), `custom`, and `hold out`. Para el ejercicio coparemos las primeras dos: `k-fold` and `custom`.
+
+Este es el ejemplo del método `k-fold`
+
+Los datos se "particionan" (separan), en _k_ subconjuntos del mmismo tamaño cada uno. Cada subconjunto es usado por turnos para validar el modelo que ha sido entrenado con los restante _k_-1 subconjuntos.
+
+A lower expected loss value is better. Here we will cross-validate two learning algorithms - Max-Min Hill-Climb (mmhc) and Hill-Climb (hc). And the BDE scoring method will be used, which requires an iss (‘imaginery sample size’ used for bde scores) term.
+
+```{r}
+bn.cv(asia, bn = "mmhc", algorithm.args = list())
+bn.cv(asia, bn = "hc", algorithm.args = list(score = "bde", iss = 1))
+```
+
+Podemos especifica el número de repeticiones, lo usual es hacer 10.
+
+```{r}
+cv_mmhc = bn.cv(asia, bn = "hc", runs = 10, 
+                algorithm.args = list(score = "bde", iss = 1))
+cv_hc = bn.cv(asia, bn = "mmhc", runs = 10, algorithm.args = list())
+
+cv_mmhc
+cv_hc
+```
+
+De esta manera, los resultados de la validación cruzada, sugieren que el algoritmo basado en "escalada simple" (Hill-Climb) produce una estructura del modelo/red que ajusta bastante bien a los datos, a juzgar por el valor de error total al predecir (loss):
+
+|Algoritmo    | error (loss)    |
+|-------------|-----------------|
+| mmhc        |`r round(mean(loss(cv_mmhc)), 6)`|
+| hc          |`r round(mean(loss(cv_hc)), 6)`  |
+
+
+
+## Inferencia
+
+Ahora que tenemos la estructura y las estimmaciones de los parámetros de la red podemos hacer inferencias con ella. Una ventaja de las redes bayesianas es que la inferencia puede hacerse en cualquier dirección (omnidireccional), de principio hacia el final o del final hacia el principio o de en medio hacia alguno de los extremos. Cada uan de esas modalidades se puede reconocer como una forma distinta de "razonamiento". Veamos un par de ejeplos:
+
+Inicio a final: de Asia  rayos-X:
+
+```{r}
+consulta_red = cpquery(fit1, event = (X=="yes"), evidence = ( A=="yes"))
+```
+
+la probabilidad de que tu catastro toraxico sea positivo cuando has estado en Asia es alrededor de `r round(consulta_red, 4) * 100`%.
+
+Ahora el caso contrario: rayos-X Xray implicación respecto de Asia:
+
+```{r}
+consulta_red = cpquery(fit1, event = (A=="yes"), evidence = ( X=="yes"))
+```
+
+En este caso la probabilidad de haber estado en Asia dado que se te encontró una placa de rayos-X positiva es alrededor de `r round(consulta_red, 4) * 100`%.
+
+
+# Lagartijas
+
+
+```{r}
+# load the data.
+data(lizards)
+# create and plot the network structure.
+dag = model2network("[Species][Diameter|Species][Height|Species]")
+graphviz.plot(dag, shape = "ellipse")
+
+# This data set is useful as it offers nominal values for
+# the conditional mutual information and X^2 tests.
+ci.test("Height", "Diameter", "Species", test = "mi", data = lizards)
+ci.test("Height", "Diameter", "Species", test = "x2", data = lizards)
+```
+
+
+

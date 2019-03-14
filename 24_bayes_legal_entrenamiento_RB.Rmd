@@ -96,10 +96,48 @@ dat <- data.frame(a = factor(a), b = factor(b), c = factor(c), d = factor(d))
 pander(head(dat), caption = "Muestra de la tabla de datos recien creada")
 ```
 
-Supongamos que comenzamos el proceso con una gráfica vacía:
+### complejidad y score AIC
+
+Una solución al problema de selección de modelos es usar una función de score
+por una que penalice la verosimilitud según el número de parámetros en el modelo.
+Una medida popular de este es el AIC (Aikaike information criterion). El AIC
+se define como
+
+<div class="caja">
+El score AIC de un modelo se define como
+$$AIC({\mathcal G}, \theta_{\mathcal G}) =
+-\frac{2}{N}loglik + \frac{2d}{N}=Dev + \frac{2d}{N},$$
+donde $d$ es el número de parámetros en $\theta_{\mathcal G}.$
+</div>
+<br/>
+
+Nótemos que bajo este criterio, agregar una arista no necesariamente representa una
+mejora, pues aunque $loglik$ no aumente o incluso disminuya, $d$ definitivamente aumenta (añadimos variables).  Es decir, el AIC es una combinación de una medida de ajuste del modelo con una penalización por complejidad, donde medimos complejidad por el número de parámetros del modelo.
+
+¿Qué modelo debemos elegir de acuerdo al AIC?
+
+No hay garantía de escoger el modelo óptimo usando el AIC (según la experiencia
+tiende a escoger modelos quizá demasiado complejos), pero es una guía útil
+para controlar complejidad.
+
+Otra alternativa útil es el BIC, que también es un tipo de
+verosimilitud penalizada:
+
+En la práctica se utilizan AIC y BIC. El AIC tiende a producir modelos
+más complejos con algún sobreajuste, mientras que el BIC tiende
+a producir modelos más simples y a veces con falta de ajuste. 
+No hay acuerdo en qué medida
+es mejor en general, pero el balance se puede considerar como sigue: cuando
+es importante predecir o hacer inferencia, y no nos preocupa tanto 
+obtener algunas aristas espurias, preferimos el AIC. Cuando buscamos
+la parte más robusta de la estructura de variación de las variables, aún
+cuando perdamos algunas dependencias débiles, puede ser mejor usar el BIC.
+
+Ahora, comenzamos el proceso con una gráfica vacía:
 
 ```{r}
-aic <- function(fit, data){
+# Esta función produce una especie de "devianza basada en AIC", útil para comparar modelo.
+aic_dev <- function(fit, data){
   -2 * AIC(fit, data = data) / nrow(data)
 }
 grafica_0 <- empty.graph(c('a','b','c','d'))
@@ -107,7 +145,7 @@ fit_0 <- bn.fit(grafica_0, dat)
 logLik(fit_0, data = dat)
 
 AIC(fit_0, data = dat) # cuatro parámetros
-aic(fit_0, data = dat)
+aic_dev(fit_0, data = dat)
 ```
 
 Consideramos agregar $a\to d$, la nueva arista que mejora el AIC, y escogemos 
