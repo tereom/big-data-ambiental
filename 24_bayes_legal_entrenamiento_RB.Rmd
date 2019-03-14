@@ -756,7 +756,7 @@ score(eq.net, asia, type="aic")
 plot(eq.net)
 plot(eq.net1)
 
-puntaje_net = score(eq.net1,asia, type="aic")
+puntaje_net = score(eq.net,asia, type="aic")
 puntaje_net1 = score(eq.net1,asia, type="aic")
 
 ```
