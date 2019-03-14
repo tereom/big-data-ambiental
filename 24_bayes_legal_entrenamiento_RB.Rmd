@@ -40,7 +40,7 @@ library(tidyverse)
 library(magrittr)
 library(pander)
 library(bnlearn)
-
+library(ggplot2)
 ```
 
 
@@ -156,7 +156,7 @@ grafica_1 <- grafica_0
 arcs(grafica_1) <- matrix(c('a', 'd'), ncol = 2, byrow = T)
 fit_1 <- bn.fit(grafica_1, dat)
 logLik(fit_1, data = dat)
-aic(fit_1, data = dat) 
+aic_dev(fit_1, data = dat) 
 
 graphviz.plot(grafica_1)
 ```
@@ -168,7 +168,7 @@ grafica_2 <- grafica_0
 arcs(grafica_2) <- matrix(c('a','d','a','b'), ncol = 2, byrow = T)
 fit_2 <- bn.fit(grafica_2, dat)
 logLik(fit_2, data = dat)
-aic(fit_2, data = dat) 
+aic_dev(fit_2, data = dat) 
 
 graphviz.plot(grafica_2)
 
@@ -181,7 +181,7 @@ grafica_3 <- grafica_0
 arcs(grafica_3) <- matrix(c('a','d','a','b','a','c'), ncol = 2, byrow = T)
 fit_3 <- bn.fit(grafica_3, dat)
 logLik(fit_3, data = dat )
-aic(fit_3, data = dat) 
+aic_dev(fit_3, data = dat) 
 
 graphviz.plot(grafica_3)
 ```
@@ -195,14 +195,14 @@ arcs(grafica_4) <- matrix(c('a','d','a','b','a','c','b','d'), ncol = 2,
   byrow = T)
 fit_4 <- bn.fit(grafica_4, dat)
 logLik(fit_4, data = dat )
-aic(fit_4, data = dat) 
+aic_dev(fit_4, data = dat) 
 
 grafica_4 <- grafica_0
 arcs(grafica_4) <- matrix(c('a','d','a','b','a','c','b','d','c','d'), ncol = 2, 
   byrow = T)
 fit_4 <- bn.fit(grafica_4, dat)
 logLik(fit_4, data = dat )
-aic(fit_4, data = dat) 
+aic_dev(fit_4, data = dat) 
 graphviz.plot(grafica_4)
 ```
 
@@ -214,7 +214,7 @@ arcs(grafica_5) <- matrix(c('a','b','a','c','b','d','c','d'), ncol = 2,
   byrow = T)
 fit_5 <- bn.fit(grafica_5, dat)
 logLik(fit_5, data = dat )
-aic(fit_5, data = dat) 
+aic_dev(fit_5, data = dat) 
 graphviz.plot(grafica_5)
 ```
 
@@ -583,14 +583,6 @@ En este otro escenario el presunto asesino tiene un _momio_ de `r o_culpable_evi
 
 [La noticia en el _Guardian_](https://www.theguardian.com/law/2011/oct/02/formula-justice-bayes-theorem-miscarriage)
 
----
-title: "Asia"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 # Ejemplo de red bayesiana "Asia"
 
@@ -886,22 +878,13 @@ En este caso la probabilidad de haber estado en Asia dado que se te encontró un
 
 
 
-# Bolsas de dulces
-
-```{r setup, include=FALSE, echo=FALSE}
-library(knitr)
-library(pander)
-library(tidyverse)
-library(ggplot2)
-opts_chunk$set(echo = TRUE)
-
-```
-
 # Ejemplo dulces en bolsas
 
-![](./imagenes/bolsas.png){width=50%}
-
 Tenemos cinco tipos de bolsas sin marcas particulares que contienen dulces de dos tipo: cereza y limón. En cada bolsa hay distinta proporción de cada uno de ellos:
+
+
+
+![](./imagenes/bolsas.png){width=50%}
 
 |bolsa     | cereza |  limón |frecuencia |
 |----------|--------|--------|-----------|
