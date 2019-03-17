@@ -1,0 +1,51 @@
+# Clase miércoles 18/marzo/2019 Inecol
+
+* ¿Qué es Big Data?
+* ¿Cómo convertirse en una organización que toma decisiones basadas en datos?
+* ¿Qué es ciencia de datos?
+* Inteligencia artificial hoy
+* Práctica: introducción a control de versiones
+
+
+## Big Data
+
+Big data es un término que no está definido estrictamente. Es utilizado para describir un gran volumen de datos estructurados y/o no-estructurados. 
+
+La mayoría de los científicos y personas de Tecnologías de la Información están acostumbrados a trabajar con datos estructurados. Estos son simplemente datos que están escritos en un formato que es fácilmente comprensible por las computadoras y que por tanto se pueden procesar con algoritmos básicos. Este tipo de datos entra de manera natural en una base de datos relacional (ahondaremos un poco en esto más adelante) puesto a que se pueden asociar los datos de manera inequívoca a campos fijos.  
+
+![](./imagenes/base_datos_relacional_ejemplo.png){width=60%}
+
+Los datos no-estructurados son aquellos que no pueden sencillamente asociarse a una estructura anterior. Ni siquiera claramente asociarle campos porque naturalmente no están asociados a un modelo de datos. Ejmplos de esto: presentaciones de powerpoint, archivos PDF, tweets, videos digitales. 
+
+![](imagenes/manicule2.jpg) Tómense 10 minutos para pensar en 2 ejemplos de datos estructurados y 2 de datos no-estructurados en biodiversidad. Anotar por qué son el uno o el otro.
+
+Ahora bien, anuque el término Big Data es relativamente nuevo, producir y almacenar relativamente grandes cantidades de datos para llevar a cabo análisis es una práctica antigua. El concepto Big Data se popularizó a principio de los años 2000s cuando el analista Doug Laney articuló una definición de Big Data conocida como las tres V's:
+
+* Volumen: las organizaciones colectan simultáneamente datos de múltiples fuentes.
+
+* Velocidad: los flujos de datos son cada vez más veloces, por ejemplo datos provenientes de sensores nos otorgan datos prácticamente en tiempo real.
+
+* Variedad: los datos vienen en todo tipo de formatos, estructurados y no-estrucutrados.
+
+A este se han agregado otras características que es importante tener en mente, sobre todo en ecología, biodiversidad, etc
+
+* Variabilidad: además de la creciente velocidad y variabilidad de datos, los flujos de datos tienden a ser muy inconsistentes, por ejemplo con grandes sesgos temporales y espaciales. 
+
+* Complejidad: los datos cada vez vienen de más fuentes, lo cuál los hace difícil limpiarlos, transformarlos, asociarlos y unificarlos para poder meterlos a un solo sistema para luego ser analizados en conjunto.
+
+![](imagenes/manicule2.jpg) Tómense 10 minutos para formular un ejemplo de análisis de datos en el tema de biodiversidad donde se requieren múltiples fuentes de datos, describir de dónde provienen tales datos, su velocidad, variabilidad y complejidad.
+
+Ahora hay que aclarar que el Big Data no es valioso en sí mismo. Realmente no importa la cantidad de datos que se tienen, lo que importa es lo que hacen las organizacions con ellos. Lo importante es que el Big Data tiene el potencial de generar conocimiento que lleve a mejores decisiones y estrategias.
+
+## ¿Cómo convertirse en una organización que toma decisiones basadas en datos?
+
+Algo que es común observar (al menos en este hermoso país)  es que los datos generados por las agencias gubernamentales terminan en un sin fin de reportes, rara vez se utilizan para la toma de decisiones. Se van publicando paulatinamente datos y reportes pero su impacto sobre decisiones futuras y ,por ejemplo, política pública, no es claro. Estos reportes son, generalmente, una mera declaración de hechos presentes o pasados, sin mucho contexto y sin una explicación causal de por qué algo ha sucedido o no ha sucedido. Por supuesto sin recomendaciones de qué hacer después. Sin duda los datos y los reportes son escenciales para la toma de decisiones, por sí solos no logran mucho.
+
+Cuando una organización está impulsada por datos diremos que es data-driven. No existe una palabra en español para referise a esto así que usaremos el término en inglés. 
+
+La Data-drivenness emerge de múltiples cosas, pero final del día hay que tener en mente que volverse una organización impulsada por datos es una decisión estratégica y operacional, no es sólo una cuestión tecnológica. Es crucial generar una cultura en la que las personas actúan con base en datos. Por supuesto que para lograr esto hace falta construir herramientas y habilidades que permitan lo anterior.
+
+![](imagenes/manicule2.jpg) Tómense 10 minutos para leer la siguiente [carta](
+https://stopdesign.com/archive/2009/03/20/goodbye-google.html).
+
+
