@@ -8,13 +8,13 @@
 
 ## Big Data
 
-Big data es un término que no está definido estrictamente. Es utilizado para describir un gran volumen de datos estructurados y/o no-estructurados. 
+Big data es un término sin definición clara. Es utilizado para describir un gran volumen de datos estructurados y/o no-estructurados. 
 
 La mayoría de los científicos y personas de Tecnologías de la Información están acostumbrados a trabajar con datos estructurados. Estos son simplemente datos que están escritos en un formato que es fácilmente comprensible por las computadoras y que por tanto se pueden procesar con algoritmos básicos. Este tipo de datos entra de manera natural en una base de datos relacional (ahondaremos un poco en esto más adelante) puesto a que se pueden asociar los datos de manera inequívoca a campos fijos.  
 
 ![](./imagenes/base_datos_relacional_ejemplo.png){width=60%}
 
-Los datos no-estructurados son aquellos que no pueden sencillamente asociarse a una estructura anterior. Ni siquiera claramente asociarle campos porque naturalmente no están asociados a un modelo de datos. Ejmplos de esto: presentaciones de powerpoint, archivos PDF, tweets, videos digitales. 
+Los datos no-estructurados son aquellos que no pueden sencillamente asociarse a una estructura como la anterior. Ni siquiera asignarle campos porque naturalmente no están asociados a un modelo de datos. Ejmplos de esto: presentaciones de powerpoint, archivos PDF, tweets, videos digitales. 
 
 ![](imagenes/manicule2.jpg) Tómense 10 minutos para pensar en 2 ejemplos de datos estructurados y 2 de datos no-estructurados en biodiversidad. Anotar por qué son el uno o el otro.
 

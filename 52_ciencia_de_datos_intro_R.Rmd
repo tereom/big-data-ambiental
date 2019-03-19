@@ -1,0 +1,760 @@
+
+# Clase miércoles 19/marzo/2019 Inecol
+
+* Básicos de programación en R
+* Scripts en R
+* R como una plataforma SIG
+
+## Básicos de programación en R
+### Las secciones principales de nuestro ambiente de desarrollo en RStudio
+
+En el menú superior en la sección **File**, la primera opción permite crear un nuevo archivo. Ahí existe la opción de generar un Script. 
+
+Como se mencionó la clase pasada, Rstudio es un ambiente de desarrollo integrado para R: incluye una consola, un editor de texto y un conjunto de herramientas para administrar el espacio de trabajo cuando se utiliza R. Se debe notar que R es un lenguaje que funciona cargando los objetos que va a utilizar en la memoria RAM de la computadora. Cuando decimos "espacio de trabajo" nos referimos a la memoria RAM que en un momento dado está destinada para trabajo en R.
+
+![](./imagenes/1_rstudio.png){width=60%}
+
+
+### R como una calculadora
+
+En la clase pasada omitimos algunos elementos básicos de R para lograr que pudiésemos comenzar a graficar lo más pronto posible.
+
+Uno de esos elementos es que R puede llevar a cabo operaciones como una calculadora. La consola de R entiende expresiones matemáticos y los puede operar para obtener sus resultados.
+
+```{r}
+2+2
+
+2000*99^2-444
+```
+
+Estas operaciones no se guardan en el espacio de trabajo. Igual que cuando se usa una calculadora sin guardar un resultado en su memoria, al momento de producir el resultado se pierde la operación. 
+
+### Asignación de objetos en R
+
+Para almacenar un resultado en el espacio de trabajo de R es necesario asignarlo a un objeto. Las asignaciones en R tienen siempre la misma forma:
+
+<center>**nombre_del_objeto <- valor**</center>
+
+
+Por ejemplo puedes asignar una de las operaciones anteriores a un objeto en R.
+
+```{r}
+operacion_1 <- 2+2
+
+```
+
+Escribir el nombre del objeto en la consola es equivalente a pregunarle a R ¿Qué hay en ese objeto?
+
+```{r}
+operacion_1
+
+```
+
+Es buena práctica ponerle nombres informativos a los objetos que estamos generando. Recomendamos usar la nomenclatura llamada **snake_case** que se refiere a separar las palabras del nombre de tu objeto con un "_".
+
+Construyamos otro objeto que guarda el resultado de una operación.
+
+```{r}
+esta_operacion_es_sumamente_larga <- 2+2^21*2183176321/(22+2.56^121)+11111
+
+```
+
+RStudio tiene una herramienta de autocompletado de nombres, si escribes en la consola únicamente "esta" y aprietas la tecla Tab debe completar el nombre del objeto anterior.
+
+### Funciones en R
+
+Los comandos que se utilizaron la clase pasada para graficar se llaman funciones. Las funciones en R tienen la forma:
+
+<center>**nombre_de_la_función(argumento1=valor1,argumento2=valor2,...)**</center>
+
+El nombre de la función indica a R qué función se debe ejecutar. Cada función tiene asociada una lista de argumentos que le permiten saber a R qué le estás pidiendo que haga.
+
+Como un primer ejemplo, vimos la clase pasada que la instalación de paquetes en R se puede llevar a cabo usando una función: install.packages(). Lo mínimo que necesita R para poder instalar un paquete es cuál debe instalar. Por esto el uso de esta función es simplemente install.packages(pkgs="nombre_del_paquete").
+
+También debemos recordar que el símbolo "?" junto a una función nos permite acceder a la ayuda de R sobre la misma. 
+
+Estudiemos ahora la función seq(), pueden escribir ?seq para ver la ayuda sobre esta función. Esta genera secuencias de números, por ejemplo para generar la secuencia de números enteros del 1 al 100 basta con escribir:
+
+```{r}
+seq(from=1,to=100)
+
+```
+
+Una observación útil es que el autocompletado de RStudio ¡sirve también para funciones! Intenta escribir "se" en la consola y luego oprimir la tecla Tab. Deberá aparecer un recuadro con un listado de opciones. 
+
+![](./imagenes/2_function_tab.png){width=60%}
+
+Escribir una letra más (e.g. "q") reduce la lista de opciones y la función seq deberá ya ser visible en ellas. Luego basta con oprimir la tecla Enter para elegir la función seq.
+
+El resultado de utilizar una función se puede también asignar a un objeto. Esto será de gran utilidad a la hora de trabajar en R.
+
+```{r}
+secuencia_del_1_al_100 <- seq(from=1,to=100)
+
+```
+
+En la sección superior derecha de nuestro ambiente de RStudio ya deben existir dos objetos cargados en el espacio de trabajo: "esta_operacion_es_sumamente_larga" y "secuencia_del_1_al_100". Estos ya están cargados en la memoria RAM de la computadora y R puede acceder a ellos cuando se les solicite utilizando su nombre.
+
+![](./imagenes/3_espacio_trabajo.png){width=60%}
+
+## Scripts en R
+
+### ¿Qué es un script?
+
+En la sección anterior creamos nuestro primer script. Elegimos un nombre para él pero por el momento se encuentra vacío. Un script es llanamente un archivo de texto y en él se pueden escribir instrucciones de R. En realidad podrías escribir tu código de R en cualquier procesador de texto, por ejemplo en word que es como muchos entregaron sus tareas. La conveniencia de tener un procesador de texto dentro de tu ambiente de trabajo (RStudio) es que te permite mandar las instrucciones diréctamente a la consola para su ejecución. 
+
+Hasta ahora hemos trabajado todo diréctamente en la consola pero generar un script nos evita la necesidad de volver a escribir un bloque de código si cometimos algún error. Nos permite ir modificando el código al vuelo y re-ejecutándolo de manera iterativa. 
+
+En un script el símbolo # le indica a R que esa línea es un comentario. Los comentarios no se ejecutan y sirven para tener notas para nosotros mismos sobre el código que estamos desarrollando. Cuando una línea de texto es un comentario, será de color verde.
+
+![](./imagenes/4_primer_script.png){width=80%}
+
+Para ejecutar el código que se encuentra en un script se pueden utilizar las teclas: Ctrl/Cmd (mac) + Enter o el botrón "Run" que se encuentra en la esquina superior derecha de la ventana de scripts. En un script puedes correr una línea en particular (primero la eliges con el mouse, botón izquierdo). También puedes correr una selección de tu script, para esto sólo debes elegir una sección de tu código dejando apretado el botón derecho del mouse o con la tecla shift y las flechas del teclado; análogo a como se hace en word.
+
+### Diagnósticos de RStudio
+
+Como se sabe que R es tan moléstamente quisquilloso, RStudio tiene integrado un detector de errores de sintaxis. 
+
+Un error tremendamente común es que siempre que se abran paréntesis, se deben cerrar (). Por ejemplo a la hora de usar alguna función. Si RStudio detecta que en una línea hay paréntesis sin pareja la marcará con una cruz roja.
+
+![](./imagenes/5_unmatched_bracket.png){width=80%}
+
+Por supuesto existen muchísimos posibles errores en R. Si se comete alguno RStudio tratará de informarte sobre la naturaleza del error, basta con colocar el puntero del mouse sobre la cruz roja para ver esta nota.
+
+## R como una plataforma SIG
+
+[Descargar datos](https://www.dropbox.com/s/ds9wtbaw9s83xf6/curso_r_conabio.zip?dl=0)
+
+### Introducción
+
+El análisis espacial y espacio-temporal es una extensión natural a las capacidades de R. Existen múltiples paquetes para manipular y analizar datos espacio-temporales en R. En esta clase vamos a dar una introducción a esto.
+
+Primero que nada establezcamos el directorio de trabajo
+
+```{r setup, echo=FALSE}
+
+library("knitr")
+
+opts_knit$set(root.dir = "/Users/jequihua/Documents/repositories/big-data-ambiental/")
+
+```
+
+
+### Matrices y data frames
+
+Recordando, una matriz es un arreglo bidimensional con una cierta cantidad de renglones y de columnas, por ejemplo un cuadrado de $3*3$ que contenga los números del 1 al 9
+
+```{r}
+
+matriz <- matrix(seq(1,9),nrow=3,ncol=3)
+
+matriz
+
+```
+
+Un data.frame es también un arreglo con la diferencia de que puede contener más de un tipo de datos. Esto es, puede alojar texto, números y valores booleanos simultáneamente.
+
+```{r}
+
+numeros <- c(1,2,3)
+
+texto <- c("hola","como","estas")
+
+booleanos <- c(TRUE,FALSE,TRUE)
+
+data_frame <- data.frame(numeros,texto,booleanos)
+
+data_frame
+```
+
+Ambos tienen asociadas coordenadas de la forma $(renglón,columna)$ que comienzan de arriba a abajo y de izquierda a derecha. Estas permiten recuperar los valores que guardan, por ejemplo la entrada $(renglón,columna)=(2,1)$ para la matriz y el data.frame que definimos antes corresponden a:
+
+```{r}
+
+matriz[2,1]
+
+data_frame[2,1]
+
+```
+
+También se pueden hacer búsquedas condicionales sobre estos objetos, esto es escribir en código peticiones como: dime qué valores de la primera columna de la matriz son mayores a 1.
+
+Cuando se deja vacía una dimensión, R entiende que le estás pidiendo que incluya todos los valores existentes en ella. Por tanto, la pregunta ¿qué valores de la columna 1 de la matriz son mayores a 1? se expresa de la siguiente manera:
+
+```{r}
+
+condicion <- matriz[,1]>1
+
+condicion
+
+
+```
+
+La primer columna está compuesta por los valores 1 (que claramente no es mayor a 1), 2 y 3 por lo tanto el resultado es FALSE, TRUE, TRUE.
+
+La misma manera de hacerle "preguntas" a una matriz se puede lograr con un data.frame
+
+```{r}
+
+condicion <- data_frame[,1]>1
+
+condicion
+
+
+```
+
+Algunas preguntas, por la naturaleza de los datos no tienen sentido. Por ejemplo de las palabras "hola", "como", "estas" ¿cuáles son mayores a 1?
+
+### Rasters, primeros pasos
+
+Un raster es simplemente una matriz de números qué tiene la intención de usarse como base para generar imágenes. A estos se les puede asociar una estructura espacial.
+
+En R, existe el paquete "raster" que está ampliamente desarrollado y se recomienda como espina dorsal para cualquier análisis que incorpore imágenes de satélite.
+
+La mayoría de las imágenes de satélite se pueden cargar usando la función raster(). Esta misma permite insertar una matriz en un objeto raster de R. 
+
+```{r}
+
+library("raster")
+
+matriz_raster <- raster(matriz)
+
+matriz_raster
+
+```
+
+Como podrá notarse, el objeto matriz_raster es ya un raster. Si bien, uno poco interesante y sin proyección.
+
+Se mencionó que los rasters están pensados para ser la base de imágenes. El paquete "raster" contiene funcionalidades básicas de visualización de objetos raster.
+
+
+```{r}
+
+plot(matriz_raster)
+
+```
+
+Es muy importante observar que un objeto raster tiene asociados dos conjuntos de coordenadas. El objeto matriz_raster anterior se generó a partir de una matriz de dimensión $3*3$ por lo que está conformado por 9 píxeles que se ubican a través de su (renglón,columna). Por otro lado, define un espacio abstracto continuo localizado en el extent: 0, 1, 0, 1  (xmin, xmax, ymin, ymax). Por tanto la resolución (tamaño de cada píxel) del raster es de $0.333*0.333$.
+
+En este contexto, los puntos son objetos espaciales sin área. Por lo que uno se puede localizar en cualquier lugar del espacio que definimos, por ejemplo en las coordenadas $(0.25,0.75)$
+
+```{r}
+
+plot(matriz_raster)
+
+points(0.25,0.75,pch=21,bg="red",cex=2)
+
+```
+
+Utilizando el paquete "rasterVis" que es uno cuya intención primordial es visualizar rasters y sus análisis podemos visualizar este raster muy simple con los valores correspondientes a cada pixel. Esto permitirá observar el resultado de los siguientes procesos que llevaremos a cabo.
+
+```{r}
+
+library("ggplot2")
+library("rasterVis")
+
+gplot(matriz_raster) + geom_tile(aes(fill=values(matriz_raster))) + 
+                  scale_colour_brewer(palette="Blues")  +
+                  coord_equal() + 
+                  geom_text(aes(label=sprintf("%02.0f",values(matriz_raster))),color="white",size=5)
+
+```
+
+Análogamente a como sucedía con la matriz, podemos recuperar el valor del raster en la entrada $(renglón,columna)=(2,1)$
+
+```{r}
+
+matriz_raster[2,1]
+
+```
+
+Un raster también es entendido en R como un vector de arriba a abajo y de izquierda a derecha. En este caso el arreglo tiene longitud 9 y la entrada $(renglón,columna)=(2,1)$ es igual a la entrada $[4]$.
+
+```{r}
+
+matriz_raster[4]
+
+```
+
+Lo anterior en combinación con expresiones condicionales nos permite hacer búsquedas y manipular rasters.
+
+Podemos multiplicar el raster en su totalidad por 2 y restarle la constante 1.
+
+```{r}
+
+matriz_raster_por2_menos1 <- matriz_raster * 2 - 1
+
+gplot(matriz_raster_por2_menos1) + geom_tile(aes(fill=values(matriz_raster_por2_menos1))) + 
+                  scale_colour_brewer(palette="Blues")  +
+                  coord_equal() + 
+                  geom_text(aes(label=sprintf("%02.0f",values(matriz_raster_por2_menos1))),color="white",size=5)
+```
+
+Podemos reemplazar todos los píxeles del raster que cumplan la condición de ser mayores a 4 por 999. Esto se logra expresando la condición de manera análoga a como lo hicimos para matrices. Como un raster se puede ver como un vector, basta con meter la condición en una única dimensión
+
+```{r}
+
+# reemplazar matriz_raster donde matriz_raster mayor a 4 por 999
+ matriz_raster[matriz_raster>4] <- 999
+
+gplot(matriz_raster) + geom_tile(aes(fill=values(matriz_raster))) + 
+                  scale_colour_brewer(palette="Blues")  +
+                  coord_equal() + 
+                  geom_text(aes(label=sprintf("%02.0f",values(matriz_raster))),color="white",size=5)
+```
+
+Hay funciones básicas en el paquete raster que son útiles en mútiples situaciones:
+
+cellStats() calcula un estadístico definido por el usuario sobre un raster de entrada, por ejemplo se puede usar para obtener el promedio de matriz_raster
+
+```{r}
+
+cellStats(matriz_raster,stat="mean")
+
+```
+
+### Análisis de Rasters usando R
+
+Como se indicó se puede cargar prácticamente cualquier raster utilizando la función raster(). Muchas imágenes satelitales son en realidad multiespectrales, esto quiere decir que en vez de ser una sola matriz son varias apiladas. Por ejemplo las imágenes RapidEye son imágenes constan de 5 bandas (green,blue,red, red edge, near infrared). Estas imágenes en particular se deben cargar con la función brick() o stack(). Carguemos un recorte de imagen RapidEye localizada en el estado de Chiapas. Si se llama al objeto se desplegarán los metadatos del mismo:
+
+```{r}
+
+chiapas1 <- brick("./data/1crop.tif")
+
+chiapas1
+
+# visualizar las bandas RGB
+plotRGB(chiapas1,r=3,g=2,b=1)
+
+```
+
+Utilizando la función subset() podemos obtener una o más bandas de una imagen multiespectral. Por ejemplo podemos extraer las bandas red (VIS) y near infrared (NIR).
+
+```{r}
+
+VIS <- subset(chiapas1,subset=3)
+
+NIR <- subset(chiapas1,subset=5)
+
+par(mfrow=c(1,2))
+
+plot(VIS,main="VIS")
+plot(NIR,main="NIR")
+
+```
+
+Utilizando los mecanismos de algebra de mapas descritos en la sección anterior podemos trivialmente calcular el NDVI de esta imagen.
+
+$$
+\begin{aligned}
+NDVI := \frac{NIR-VIS}{NIR+VIS}
+\end{aligned}
+$$
+
+```{r}
+
+chiapas1_ndvi <- (NIR-VIS)/(NIR+VIS)
+
+plot(chiapas1_ndvi,main="NDVI")
+
+```
+
+Utilizando algebra de mapas y la función cellStats() podemos estandarizar esta imagen. Le restaremos su media y dividiremos esto sobre la desviación estándar de la misma.
+
+```{r}
+
+chiapas1_ndvi_st <- (chiapas1_ndvi-cellStats(chiapas1_ndvi,stat="mean"))/(cellStats(chiapas1_ndvi,stat="sd"))
+
+plot(chiapas1_ndvi_st,main="NDVI estandarizado")
+
+```
+
+Con base en el procedimiento anterior, tratemos de generar un ejercicio simple de detección de cambios. Tomemos una imagen RapidEye del mismo lugar pero tomada un año después que la que acabamos de trabajar. Llevemos a cabo el mismo procedimiento para obtener su NDVI estandarizado.
+
+```{r}
+
+chiapas2 <- brick("./data/2crop.tif")
+
+VIS <- subset(chiapas2,subset=3)
+
+NIR <- subset(chiapas2,subset=5)
+
+chiapas2_ndvi <- (NIR-VIS)/(NIR+VIS)
+
+chiapas2_ndvi_st <- (chiapas2_ndvi-cellStats(chiapas2_ndvi,stat="mean"))/(cellStats(chiapas2_ndvi,stat="sd"))
+
+plot(chiapas2_ndvi_st,main="NDVI estandarizado, 1 año después")
+
+```
+
+Ahora generaremos una imagen de diferencias, D, a partir de estas dos de NDVI.
+
+$$
+\begin{aligned}
+D = NDVI_1 - NDVI_2
+\end{aligned}
+$$
+
+
+```{r}
+
+D <- chiapas1_ndvi_st - chiapas2_ndvi_st
+
+plot(D,main="Diferencias en NDVI")
+
+```
+
+Aquí las diferencias positivas significan que el NDVI de la fecha 1 fue mayor al de la fecha 2. Diferencias negativas significan que el NDVI de la fecha 1 fue menor al de la fecha 2. Lo que dificulta el estudio de los cambios es que existe un continuo de magnitudes de diferencias. Naturalmente suponemos que diferencias de magnitud cercanas a $0$ deben considerarse no-cambios pero no es claro de qué magnitud debe ser una diferencia para poder tomarse como un cambio. Vamos a visualizar el histograma de las diferencias para darnos una idea de la distribución de estas.
+
+```{r}
+
+hist(D,breaks=100,main="Diferencias en NDVI",xlab="Diferencias",ylab="Conteos")
+
+```
+
+Parecería que la distribución de diferencias es aproximadamente normal. Se sabe que en una distribución normal, 95% de los valores se encuentran a 2 desviaciones estándar de su media. Tomando esto en cuenta definiremos como una diferencia significativa (cambio) a toda aquella que se encuentre a dos desviaciones estándar de la diferencia media. Podemos utilizar lo aprendido hasta ahora para condicionalmente reemplazar en la imagen de diferencias todo aquella que queremos descartar por ser una no-significativa.
+
+```{r}
+
+umbral_positivo <- cellStats(D,stat="mean")+ 2*cellStats(D,stat="sd")
+
+umbral_negativo <- cellStats(D,stat="mean")- 2*cellStats(D,stat="sd")
+
+# Recordatorio: se pueden combinar múltiples condiciones utilizando operadores lógicos
+#
+# El operador | se usa para expresar "o"
+#
+# El operador & se usa para expresar "y"
+
+D[(D>umbral_negativo) & (D<umbral_positivo)] <-NA 
+
+```
+
+Este es el resultado final de este proceso. En R, es tan secillo escribir un raster como leerlo. Para este propósito se utiliza la función writeRaster()
+
+```{r}
+
+writeRaster(D, filename="./data/diferencias_significativas.tif", format="GTiff", overwrite=TRUE)
+
+``` 
+
+![](./imagenes/dif_stack.jpg){width=80%}
+
+El paquete raster tiene funciones dedicadas a manejar la proyección de las capas con las que se está trabajando. Supongamos que queremos visualizar este último resultado en Google Earth. ¿está en la proyección correcta?
+
+```{r}
+
+projection(D)
+
+``` 
+
+NO.
+
+```{r}
+
+D_reproj <- projectRaster(D,crs=CRS("+proj=longlat"))
+
+``` 
+
+Luego simplemente generamos un KML con la funcón KML()
+
+```{r}
+
+KML(D_reproj,"./data/cambios_kml",maxpixels=1000000,overwrite=TRUE)
+
+``` 
+
+### Capas vectoriales, primeros pasos
+
+Una Capa vectorial es una estructura espacial conformada por unidades (puntos, líneas o polígonos), asociada a una tabla de datos. 
+
+La librería GDAL es una librería Open Source para leer y escribir formatos raster y vectoriales. El paquete rgdal es una interfaz a esta librería que permite la fácil lectura de Shape files en R.
+
+```{r}
+
+library("rgdal")
+
+puntos <- readOGR(dsn="./data/puntos.shp",layer="puntos")
+lineas <- readOGR(dsn="./data/lineas.shp",layer="lineas")
+poligonos <- readOGR(dsn="./data/poligonos.shp",layer="poligonos")
+
+par(mfrow=c(1,3))
+
+plot(puntos)
+plot(lineas)
+plot(poligonos)
+
+``` 
+
+Cargado un shape file en el espacio de trabajo de R, este se convierte en un data.frame espacial. Por lo que la mayoría de las funcionalidades disponibles para un data.frame aplican.
+
+```{r}
+
+# tipo de objeto
+class(puntos)
+class(lineas)
+class(poligonos)
+
+# cabeza de los datos
+head(puntos)
+head(lineas)
+head(poligonos)
+
+``` 
+
+Se debe notar que por como están programadas estas estructuras espaciales en R, todo supconjunto de un data.frame espacial es nuevamente un data.frame espacial y se pueden generar subconjuntos utilizando los mecanismos usuales para data.frames
+
+```{r}
+
+# elegimos el primer polígono
+poligono <- poligonos[1,]
+
+class(poligono)
+
+plot(poligono)
+
+``` 
+
+Como sucede con un data.frame usual se puede agregar una nueva columna (variable) a un data.frame espacial utilizando el signo "$".
+
+```{r}
+
+# agregamos al objetos poligonos la variable intensidad. Este objeto tiene 3 polígonos. Asignarémos un valor de intensidad = 0 al primer polígono, y un valor de intensidad = 2 a los siguientes 2. 
+poligonos$intensidad <- c(1,2,2)
+
+head(poligonos)
+
+colores <- c("red","blue")
+
+plot(poligonos,col=colores[poligonos$intensidad])
+
+``` 
+
+### Análisis de capas vectoriales usando R
+
+Existen numerosas librerías para hacer análisis de capas vectoriales de puntos, líneas y polígonos.
+
+Algo que es importante es entender cómo manipular distintas capas vectoriales simultáneamente, por lo que vale la pena leer las funciones disponibles en los paquetes más fundamentales: sp, maptools, raster, etc. 
+
+Por ejemplo, es trivial encontrar las intersecciones espaciales entre polígonos y puntos utilizando la función over() del paquete sp.
+
+```{r}
+
+overlay <- over(puntos,poligonos)
+
+overlay
+
+plot(poligonos,col=colores[poligonos$intensidad])
+
+plot(puntos,add=TRUE)
+
+
+``` 
+
+La función over() está programada para manejar de manera distinta cada una de los casos que surgen de las combinaciones de puntos, líneas y polígonos. Es recomendable consultar la ayuda de la función para entender cada caso (?over). En el caso de puntos vs polígonos la salida tiene tantas filas como puntos hay de entrada (11). Para cada fila de la salida se indica sobre qué polígono cae cada punto y cualquier otra variable que esté incluída en la tabla de datos de los polígonos (e.g. intensidad en este caso.)
+
+Para determinar intersecciones complejas entre dos capas de polígonos es más conveniente utilizar el paquete raster.
+
+```{r}
+
+poligonos2 <- readOGR(dsn="./data/cruces.shp",layer="cruces")
+
+plot(poligonos2)
+
+plot(poligonos,col=colores[poligonos$intensidad],add=TRUE)
+
+intersecciones <- poligonos + poligonos2
+
+data.frame(intersecciones)
+
+plot(intersecciones,col=blues9)
+
+``` 
+
+### Juntando todo
+
+La función extract() del paquete raster es una sumamente útil. Permite sobreponer un data.frame espacial sobre un raster y extraer los valores de píxeles sobre los que cae cada registro del data.frame espacial.
+
+Cuando el data.frame espacial es uno de puntos entonces cada punto cae exáctamente sobre 1 pixel por lo que la extracción es trivial.
+
+Si el data.frame espacial es, por ejemplo, uno de polígonos; entonces cada registro cae sobre un grupo de píxeles. En este caso, la función extract debe recibir una función para poder asociarle un valor a cada polígono. Por ejemplo, si se elige la funciòn promedio, cada polígono es asociado al promedio de píxeles que envuelve.
+
+```{r}
+
+# leamos un raster de altitud con resolución de 1 km
+altitud <- raster("./data/dem30_mean1000.tif")
+
+plot(altitud)
+plot(poligonos,col=colores[poligonos$intensidad],add=TRUE)
+plot(puntos,add=TRUE)
+
+extraccion_puntos <- extract(altitud,puntos)
+
+# valor de altitud de cada punto
+extraccion_puntos
+
+extraccion_poligonos <- extract(altitud,poligonos,fun=mean,na.rm=TRUE)
+
+# valor de altitud promedio por polígono
+extraccion_poligonos
+
+``` 
+
+Podemos combinar múltiples funciones para lograr objetivos muy específicos. Por ejemplo, supongamos que queremos cortar el raster de altitud con base en nuestro shape de polígonos.
+
+
+```{r}
+
+ 
+extShape <- extent(poligonos)
+img <- crop(altitud, extShape, snap='out')
+img.NA <- setValues(img, NA)
+img.mask <- rasterize(poligonos, img.NA)
+img.crop <- mask(x=img, mask=img.mask)
+
+plot(img.crop,main="Altitud en polígonos")
+
+``` 
+
+Ahora llevaremos a cabo un ejercicio en el que usaremos varias distintas funcionalidades de R para generar una regionalización del país de manera automatizada.
+
+Tomemos el raster altitud como base.
+
+Vamos a inicializar un raster multiespectral vacío y luego asignarle el raster de altitud como primera banda.
+
+```{r}
+
+# raster multiespectral vacío
+brik <- brick()
+
+# asignemos altitud como primera banda
+brik <- addLayer(brik,altitud)
+
+```
+
+El raster multiespectral brik, hereda los metadatos de el raster altitud. Si queremos introducirle más bandas, estas tienen que compartir exactamente los mismos metadatos. Introduzcamos las variables % vegetacion boscosa, % vegetación no-boscosa, % de no-vegetación, temperatura máxima promedio, temperatura mínima promedio y precipitación promedio.
+
+```{r}
+
+v_boscosa <- raster("./data/MOD44B_2014-03-06.Percent_Tree_Cover.tif")
+v_noboscosa <- raster("./data/MOD44B_2014-03-06.Percent_NonTree_Vegetation.tif")
+v_no <- raster("./data/MOD44B_2014-03-06.Percent_NonVegetated.tif")
+
+# plot v_boscosa
+plot(v_boscosa,main="% vegetación boscosa")
+
+# ¿hay un match entre los metadatos de estas capas y el raster altitud?
+projection(v_boscosa)==projection(altitud)
+extent(v_boscosa)==extent(altitud)
+res(v_boscosa)==res(altitud)
+
+# resolución de v_boscosa?
+res(v_boscosa)
+
+```
+
+Todo está harmonizado excepto la resolución de los rasters. Las tres capas de vegetación anteriores están generadas con base en imágenes modis de 250 m. Sabemos que nuestro raster de altitud tiene una resolución de 1000 m. Agreguemos estas capas por un factor de 4 con base en la función promedio. También observamos que estas capas se extienden más allá de la delimitación oficial de México. Usaremos el raster altitud para eliminar todo aquello que no corresponda con México. Luego podremos agregar las capas de vegetación como bandas nuevas a nuestro raster multiespectral.
+
+```{r}
+
+# agregación factor *4 con base en función promedio
+v_boscosa <- aggregate(v_boscosa,fact=4,fun=mean,na.rm=TRUE)
+v_noboscosa <- aggregate(v_noboscosa,fact=4,fun=mean,na.rm=TRUE)
+v_no <- aggregate(v_no,fact=4,fun=mean,na.rm=TRUE)
+
+# filtrado de capas: si es NA en altitud que sea NA en capas de vegetación
+v_boscosa[is.na(altitud)]<-NA
+v_noboscosa[is.na(altitud)]<-NA
+v_no[is.na(altitud)]<-NA
+
+# Introduzcamos estas capas a nuestro raster multiespectral
+brik <- addLayer(brik,v_boscosa)
+brik <- addLayer(brik,v_noboscosa)
+brik <- addLayer(brik,v_no)
+
+dim(brik)
+
+```
+
+Ahora simplemente agregaremos las capas que faltan al raster multiespectral: temperatura máxima promedio, temperatura mínima promedio y precipitación promedio
+
+```{r}
+
+
+# Agregamos las bandas que faltan
+brik <- addLayer(brik,
+                 raster("./data/temp_max.tif"))
+
+brik <- addLayer(brik,
+                 raster("./data/temp_min.tif"))
+
+brik <- addLayer(brik,
+                 raster("./data/precipitacion.tif"))
+
+
+```
+
+Empezamos discutiendo matrices y data.frames. Los data.frames son estructuras sumamente apropiadas para llevar a cabo análisis. Vamos a generar un data.frame a partir de nuestro raster multiespectral. Cada fila correspondrá a un pixel. Cada banda se hará una columna (variable), además de las coordenadas x, y. 
+
+```{r}
+
+# tabla de datos
+tabla_datos <- rasterToPoints(brik)
+
+# descartemos las filas no completas
+tabla_datos_clean <- tabla_datos[complete.cases(tabla_datos),]
+
+head(tabla_datos_clean)
+
+```
+
+Es evidente que estas variables deben estar correlacionadas. Generemos un análisis de componentes principales sobre estas variables sin tomar en cuenta las coordenadas.
+
+```{r}
+
+# cálculo de componentes principales
+componentes <- prcomp(tabla_datos_clean[,2:9],center=TRUE,scale. =TRUE)
+
+# varianza explicada
+summary(componentes)
+
+```
+
+Ahora utilicemos 4 componentes principales para llevar a cabo un ejercicio de clustering usando k-medias
+
+```{r}
+
+# k-medias, k=10
+kmedias <- kmeans(componentes$x[,1:4],centers=10,iter.max=50)
+
+```
+
+El resultado del clustering se lo podemos asociar a las coordenadas de nuestra matriz inicial. Luego convertir esta tabla en un objeto espacial y luego un raster.
+
+```{r}
+
+# clustering result
+clustered_data <- data.frame(x=tabla_datos_clean[,1],
+                             y=tabla_datos_clean[,2],
+                             clust=kmedias$cluster)
+
+# convertir esta tabla en un objeto espacial
+coordinates(clustered_data)=~x+y
+gridded(clustered_data)=TRUE
+clustered_data<-raster(clustered_data)
+projection(clustered_data)<-projection(altitud)
+
+```
+
+Finalmente podemos convertir este raster en una capa vectorial y guardarla en el disco duro.
+
+```{r}
+
+#poligonos_clusters <- rasterToPolygons(clustered_data,n=4,dissolve=TRUE)
+
+#writeOGR(poligonos_clusters,"./data/regionalizacion.shp",
+#                        "regionalizacion",driver="ESRI Shapefile")
+
+```
+
+
