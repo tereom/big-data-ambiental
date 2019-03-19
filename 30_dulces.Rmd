@@ -11,7 +11,8 @@ dulces <- 8
 
 ```
 
-# Ejemplo dulces en bolsas
+
+### Ejemplo dulces en bolsas
 
 ![](./imagenes/bolsas.png){width=50%}
 

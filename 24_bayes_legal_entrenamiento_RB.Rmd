@@ -1,28 +1,22 @@
 # Clase miércoles 13/marzo/2019 Inecol
 
-Generación de redes bayesianas con la biblioteca _bnlearn_. Diseño con base en juicio experto, aprendizaje automatizzado de topología y de tablas de probabilidad condicional.
+Generación de redes bayesianas con la biblioteca _bnlearn_. Diseño con base en
+juicio experto, aprendizaje automatizado de topología y de tablas de 
+probabilidad condicional.
 
-También ejemplo de uso de Bayes en un caso legal y finalmente ejemplo de entrenamiento de una red con blearn utilizando el ejemplo bien conocido en la literatura del caso de riesgo de enfermedades pulmonares dada exposición a tabaquismo y tuberculósis asiática.
+También ejemplo de uso de Bayes en un caso legal y finalmente ejemplo de 
+entrenamiento de una red con blearn utilizando el ejemplo bien conocido en la 
+literatura del caso de riesgo de enfermedades pulmonares dada exposición a 
+tabaquismo y tuberculósis asiática.
 
 
-## Aprendizaje automatizado de redes bayesianas
+### Aprendizaje automatizado de redes bayesianas
 
-Veremos como se puede generar automáticamente una topología de red, a partir de un conjunto de datos y también como estimmar las tablas de probabilidad de una _GAD_, nuevamente a partir de un conjunt de datos.
+Veremos como se puede generar automáticamente una topología de red, a partir de 
+un conjunto de datos y también como estimmar las tablas de probabilidad de una 
+_GAD_, nuevamente a partir de un conjunt de datos.
 
 
-Los paquetes que usaremos en esta sección son:
-
-* CRAN: tidyverse (dplyr, ggplot2, purrr), bnlearn, 
-BiocManager, igraph, gRain, pander.
-
-* Bioconductor: Rgraphviz, RBGL
-
-```
-install.packages("BiocManager")
-BiocManager::install("Rgraphviz")
-```
-
-Y las referencias son @koller, @ross y @wasserman.
 
 ```{r, echo = FALSE, message=FALSE, error=TRUE}
 
