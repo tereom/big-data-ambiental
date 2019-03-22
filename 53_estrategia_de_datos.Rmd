@@ -11,11 +11,11 @@
 Llanamente es un secuencia de procesos y pasos analíticos aplicados a datos para un propósito particular.
 
 Por ejemplo:
-*Obtener datos (e.g. a través de una encuesta y trabajo de campo)
-*Ordenar y limpiar tales datos (e.g. capturar las encuestas y producir una tabla de datos)
-*Explorar/Visualizar los datos de maneras que nos permitan encontrar ahí patrones
-*Generar modelos que permitan inferencias más informativas (e.g. una segmentación de las personas encuestadas)
-*Interpretar todos los resultados y presentarlos (e.g. reportes, infografías, dashboards)
+* Obtener datos (e.g. a través de una encuesta y trabajo de campo)
+* Ordenar y limpiar tales datos (e.g. capturar las encuestas y producir una tabla de datos)
+* Explorar/Visualizar los datos de maneras que nos permitan encontrar ahí patrones
+* Generar modelos que permitan inferencias más informativas (e.g. una segmentación de las personas encuestadas)
+* Interpretar todos los resultados y presentarlos (e.g. reportes, infografías, dashboards)
 
 ### Un ejemplo
 
@@ -77,10 +77,10 @@ API - Application Programming Interface
 *Aísla los detalles de implementación (versión de software, lenguaje, base de datos, etc)
 
 ![](imagenes/manicule2.jpg) En los mismos equipos de Formen equipos de 3 revisar las siguientes APIs y discutir qué consideran que es una API, redactar un párrafo plasmando esto:
-[iNaturalist](https://www.inaturalist.org/pages/api+reference)
-[Google geocoding](https://developers.google.com/maps/documentation/geocoding/start)
-[Comisión nacional de energía (Chile)](http://datos.energiaabierta.cl/developers/)
-[INEGI (México)](https://www.inegi.org.mx/servicios/api_biinegi.html)
+*[iNaturalist](https://www.inaturalist.org/pages/api+reference)
+*[Google geocoding](https://developers.google.com/maps/documentation/geocoding/start)
+*[Comisión nacional de energía (Chile)](http://datos.energiaabierta.cl/developers/)
+*[INEGI (México)](https://www.inegi.org.mx/servicios/api_biinegi.html)
 
 ### ¿Qué es un archivo JSON?
 
@@ -122,12 +122,12 @@ Retos
 Acceso y seguridad
 
 Acceso:
-*Todos los consumidores se registran para poder usar la API.
-*Todos los accesos se registran y se pueden auditar.
-*El punto de acceso está disponible en el Internet público.
-*Es HTTP!
-*Protocolo con amplio soporte para aplicaciones de escritorio, servidor, navegador, etc.
-*Acceso programático garantizado.
+* Todos los consumidores se registran para poder usar la API.
+* Todos los accesos se registran y se pueden auditar.
+* El punto de acceso está disponible en el Internet público.
+* Es HTTP!
+* Protocolo con amplio soporte para aplicaciones de escritorio, servidor, navegador, etc.
+* Acceso programático garantizado.
 
 Una sola puerta para todo el edificio. Ahí se registran y pueden acceder a las oficinas.
 
@@ -138,7 +138,7 @@ Seguridad:
 Grupos de usuarios
 Llaves de API pertenecen a grupos
 APIs remotas se asignan a grupos
-*Se pueden replicar políticas complejas de acceso, se requiere analizar con detalle.
+* Se pueden replicar políticas complejas de acceso, se requiere analizar con detalle.
 
 De forma central se asigna el gafete de visitante sólo al piso 4 y 7
 
